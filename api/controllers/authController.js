@@ -9,10 +9,10 @@ exports.googleLogin = async (req, res) => {
     }
 
     const { user, token } = await authService.loginWithGoogle(googleToken);
-    res.status(200).json({ user, token });
+    res.status(200).json({ user, token, message: 'Autenticación exitosa' });
 
   } catch (error) {
-    console.error('Login failed:', error.message);
+    //console.error('Login failed:', error.message);
     res.status(401).json({ message: 'Authentication failed' });
   }
 };

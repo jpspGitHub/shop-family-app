@@ -4,15 +4,19 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "🧪 Debug Jest Tests",
+            "name": "Run Jest Tests",
             "program": "${workspaceFolder}/api/node_modules/jest/bin/jest.js",
             "args": [
-                "--runInBand",
                 "--config",
-                "${workspaceFolder}/api/jest.config.js"
+                "${workspaceFolder}/api/jest.config.js",
+                "--runInBand"
             ],
+            "env": {
+                "NODE_ENV": "test"
+            },
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
+            "cwd": "${workspaceFolder}"
         },
         {
             "type": "node",

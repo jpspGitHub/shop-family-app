@@ -20,7 +20,8 @@ const createFromGoogle = async ({ email, name, picture, sub, locale }) => {
 };
 
 const findById = async (id) => {
-  return await User.findById(id).select('-__v');
+  var user = await User.findById(id);
+  return user.select('-__v');
 };
 
 const updateById = async (id, updates) => {

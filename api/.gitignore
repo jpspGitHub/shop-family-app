@@ -1,0 +1,20 @@
+# Node.js
+node_modules/
+.env
+.env.*
+npm-debug.log
+yarn-error.log
+.DS_Store
+coverage/
+.cache/
+
+# Firebase
+config/serviceAccountKey.json
+
+# Logs y archivos temporales
+*.log
+logs/
+tmp/
+
+# Swagger autogen
+docs/swagger.json

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "192178334444",
+    "project_id": "ship-family-app",
+    "storage_bucket": "ship-family-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192178334444:android:efeb744c46f4f7f8ed53c9",
+        "android_client_info": {
+          "package_name": "com.thaya.shop_family"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192178334444-bas3kdmfrtobd892ufo1ak0sdlm8ndtr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thaya.shop_family",
+            "certificate_hash": "27e885f1c62a0df024790351ca943794462f0a05"
+          }
+        },
+        {
+          "client_id": "192178334444-1pdfboktd9dcm21afg5auf3cbq470v8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBusgMavERaqe6hnqTBttelFq1ipBzihEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192178334444-1pdfboktd9dcm21afg5auf3cbq470v8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

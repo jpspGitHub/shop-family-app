@@ -1,18 +1,10 @@
 const authAgent = require('../serviceAgents/authAgent');
 const userDAO = require('../dataAccess/user');
-const { verifyGoogleTokenMock } = require('../mocks/authMocks');
+const jwt = require('jsonwebtoken');
 
 const loginWithGoogle = async (googleToken) => {
 
-    const verifyGoogleToken = () => {
-        if (process.env.AUTH_MOCK_ENABLED === 'true') {
-            return verifyGoogleTokenMock;
-        } else {
-            return authAgent.verifyGoogleToken;
-        }
-    };
-
-    const googleUser = await verifyGoogleToken()(googleToken);
+    const googleUser = await authAgent.verifyGoogleToken(googleToken);
     let user = await userDAO.findByEmail(googleUser.email);
 
     if (!user) {

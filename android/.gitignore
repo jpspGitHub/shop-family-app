@@ -1,0 +1,21 @@
+# Build files
+/build
+/app/build
+
+# Local configuration
+local.properties
+google-services.json
+
+# Android Studio
+.idea/
+.gradle/
+.DS_Store
+
+# Generated files
+captures/
+output.json
+
+*.iml
+.externalNativeBuild
+.cxx
+
