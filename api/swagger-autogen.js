@@ -1,23 +1,16 @@
 const swaggerAutogen = require('swagger-autogen')();
-
-const doc = {
-  info: {
-    title: 'Shopping List API',
-    description: 'Auto-generated Swagger documentation'
-  },
-  host: 'localhost:5000',
-  schemes: ['http'],
-  tags: [
-    { name: 'Items', description: 'Shopping list items' }
-  ]
-};
+const doc = require('./docs/swaggerDefinitions.json');
 
 const outputFile = './docs/swagger.json';
-const endpointsFiles = [
-  './routes/items.js',
-  './routes/auth.js',
-  './routes/groups.js',
-  './routes/users.js'
-];
+const endpointsFiles = ['./routes/groups.js', './routes/auth.js', './routes/items.js', './routes/users.js'];
 
+// 🚀 Inyectar manualmente los tags
+doc.paths["/groups"].post.tags = ["Groups"];
+doc.paths["/groups"].get.tags = ["Groups"];
+doc.paths["/groups/{id}"].put.tags = ["Groups"];
+doc.paths["/groups/{id}"].delete.tags = ["Groups"];
+
+doc.paths["/auth/google-login"].post.tags = ["Auth"];
+
+// Generar documentación
 swaggerAutogen(outputFile, endpointsFiles, doc);

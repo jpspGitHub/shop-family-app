@@ -1,34 +1,54 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Shopping List API",
-    "description": "Auto-generated Swagger documentation",
+    "title": "Shop Family API",
+    "description": "API para la aplicación Shop Family",
     "version": "1.0.0"
   },
-  "host": "localhost:5000",
+  "host": "localhost:5001",
   "basePath": "/",
   "tags": [
     {
+      "name": "Auth",
+      "description": "Endpoints de autenticación"
+    },
+    {
+      "name": "Users",
+      "description": "Gestión de usuarios"
+    },
+    {
+      "name": "Groups",
+      "description": "Gestión de grupos"
+    },
+    {
       "name": "Items",
-      "description": "Shopping list items"
+      "description": "Gestión de ítems"
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/{groupId}": {
+    "/": {
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "groupId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
             "type": "string"
           }
@@ -46,12 +66,18 @@
         }
       }
     },
-    "/": {
-      "post": {
+    "/{id}": {
+      "put": {
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
             "in": "header",
             "type": "string"
           },
@@ -69,61 +95,14 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
           "200": {
             "description": "OK"
           },
           "401": {
             "description": "Unauthorized"
           },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/{itemId}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "itemId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -134,23 +113,26 @@
         "description": "",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
           },
           {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
             "type": "string"
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -179,18 +161,81 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Unauthorized"
           }
         }
       }
     },
-    "/register": {
-      "post": {
+    "/{groupId}": {
+      "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
-          "501": {
-            "description": "Not Implemented"
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{itemId}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -200,7 +245,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
             "type": "string"
           }
