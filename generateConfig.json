@@ -1,0 +1,6 @@
+{
+    "nodeOutputPath": "./api/models",
+    "kotlinOutputPath": "./android/app/src/main/java/com/thaya/shop_family/models",
+    "schemaPath": "./schemas"
+  }
+  

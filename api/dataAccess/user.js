@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const mongoose = require('mongoose');
 
 const findByEmail = async (email) => {
   return await User.findOne({ email });
@@ -20,8 +21,7 @@ const createFromGoogle = async ({ email, name, picture, sub, locale }) => {
 };
 
 const findById = async (id) => {
-  var user = await User.findById(id);
-  return user.select('-__v');
+  return await User.findById(id);
 };
 
 const updateById = async (id, updates) => {

@@ -1,18 +1,17 @@
-// models/User.js
-
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  name: String,
+const UserSchema = new mongoose.Schema({
+  _id: { type: mongoose.Types.ObjectId,  },
+  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  googleId: String,
-  avatar: String,
-  phone: String,
+  googleId: { type: String,  },
+  avatar: { type: String,  },
+  phone: { type: String,  },
   locale: { type: String, default: 'en' },
   timezone: { type: String, default: 'UTC' },
-  lastLogin: Date,
+  lastLogin: { type: Date,  },
   active: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', UserSchema);

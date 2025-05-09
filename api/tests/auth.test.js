@@ -6,10 +6,6 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const ObjectId = mongoose.Types.ObjectId;
 const expectedId = new ObjectId('64b29cfa9d2e4b8d5c1b1e91');
-const dotenv = require('dotenv');
-
-const env = process.env.NODE_ENV || 'development';
-dotenv.config({ path: `.env.${env}` });
 
 describe('POST /auth/google-login', () => {
   // Antes de cada test, mockeamos el verifyIdToken
@@ -81,9 +77,12 @@ describe('POST /auth/google-login', () => {
   });
 
   // Limpiar mocks después de cada test
-  afterAll(() => {
-    sinon.restore();
-  });
+  afterAll(async() => {
+      sinon.restore();
+      if (mongoose.connection.readyState !== 0) {
+        await mongoose.connection.close();
+      }
+    });
 
   it('debe autenticar correctamente con un token válido', async () => {
     const response = await request(app)

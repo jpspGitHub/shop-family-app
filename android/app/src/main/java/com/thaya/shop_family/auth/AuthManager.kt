@@ -2,6 +2,7 @@ package com.thaya.shop_family.auth
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.thaya.shop_family.session.UserSession
 
 object AuthManager {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -15,10 +16,10 @@ object AuthManager {
 
     fun getUserSession(): UserSession? {
         val user = auth.currentUser ?: return null
-        return UserSession(
-            name = user.displayName ?: "Sin nombre",
-            email = user.email ?: "Sin email",
-            photoUrl = user.photoUrl?.toString()
-        )
+
+        UserSession.name = user.displayName ?: "Sin nombre";
+        UserSession.email = user.email ?: "Sin email";
+        UserSession.photoUrl = user.photoUrl?.toString();
+        return UserSession;
     }
 }

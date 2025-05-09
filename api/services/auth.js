@@ -10,9 +10,8 @@ const loginWithGoogle = async (googleToken) => {
     if (!user) {
         user = await userDAO.createFromGoogle(googleUser);
     }else {
-        // Opcional: actualizar lastLogin
         await userDAO.updateById(user._id, { lastLogin: new Date() });
-        user = await userDAO.findById(user._id); // refrescar datos actualizados
+        user = await userDAO.findById(user._id); 
     }
 
     const token = generateToken(user);

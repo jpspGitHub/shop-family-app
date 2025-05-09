@@ -1,0 +1,14 @@
+{
+    "_id": { "type": "id" },
+    "name": { "type": "string", "required": true },
+    "email": { "type": "string", "required": true, "unique": true },
+    "googleId": { "type": "string" },
+    "avatar": { "type": "string" },
+    "phone": { "type": "string" },
+    "locale": { "type": "string", "default": "en" },
+    "timezone": { "type": "string", "default": "UTC" },
+    "lastLogin": { "type": "date" },
+    "active": { "type": "boolean", "default": true },
+    "createdAt": { "type": "date", "default": "Date.now" }
+  }
+  

@@ -134,3 +134,14 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Ignorar logs globales
+*.log
+.DS_Store
+
+# Ignorar IDEs (VSCode, IntelliJ, etc.)
+.vscode/
+.idea/
+
+# Ignorar archivos del sistema
+Thumbs.db

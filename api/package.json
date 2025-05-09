@@ -40,11 +40,5 @@
     "sinon": "^20.0.0",
     "supertest": "^6.3.3",
     "swagger-autogen": "^2.23.7"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "setupFiles": [
-      "<rootDir>/jest.setup.js"
-    ]
   }
 }

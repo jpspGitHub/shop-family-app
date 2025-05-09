@@ -12,11 +12,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.thaya.shop_family.R
-import com.thaya.shop_family.auth.AuthManager
 import com.thaya.shop_family.databinding.ActivityLoginBinding
-import com.thaya.shop_family.network.AuthResponse
+//import com.thaya.shop_family.models.UserProfile
 import com.thaya.shop_family.network.GoogleTokenRequest
 import com.thaya.shop_family.network.RetrofitClient
+import com.thaya.shop_family.network.UserProfile
+import com.thaya.shop_family.session.UserSession
 import retrofit2.Call
 
 
@@ -100,12 +101,14 @@ class LoginActivity : AppCompatActivity() {
         val request = GoogleTokenRequest(token.orEmpty())
         val call = RetrofitClient.authService.loginWithGoogle(request)
 
-        call.enqueue(object : retrofit2.Callback<AuthResponse> {
-            override fun onResponse(call: Call<AuthResponse>, response: retrofit2.Response<AuthResponse>) {
+        call.enqueue(object : retrofit2.Callback<UserProfile> {
+            override fun onResponse(call: Call<UserProfile>, response: retrofit2.Response<UserProfile>) {
                 if (response.isSuccessful) {
                     val result = response.body()
                     Log.i("BACKEND", "Token backend: ${result?.token}")
                     Log.i("BACKEND", "Usuario: ${result?.user?.name}, ${result?.user?.email}")
+                    UserSession.jwtToken = result?.token;
+                    UserSession.userId = result?.user?._id;
                     onSuccess();
                 } else {
                     Log.e("BACKEND", "Error en respuesta: ${response.code()}")
@@ -113,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserProfile>, t: Throwable) {
                 Log.e("BACKEND", "Error al conectar", t)
                 onFailure();
             }

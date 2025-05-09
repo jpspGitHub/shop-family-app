@@ -1,0 +1,10 @@
+{
+    "_id": { "type": "string" },
+    "name": { "type": "string", "required": true },
+    "quantity": { "type": "string", "default": "1" },
+    "isPurchased": { "type": "boolean", "default": false },
+    "groupId": { "type": "string", "ref": "Group", "required": true },
+    "addedBy": { "type": "string", "ref": "User", "required": true },
+    "createdAt": { "type": "date", "default": "Date.now" }
+  }
+  

@@ -1,23 +1,19 @@
 package com.thaya.shop_family.network
 
+// import com.thaya.shop_family.models.UserProfile
+import com.thaya.shop_family.models.User
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-data class GoogleTokenRequest(val token: String)
-
-data class AuthResponse(
+data class UserProfile(
     val token: String,
-    val user: UserDto
+    val user: User
 )
 
-data class UserDto(
-    val name: String,
-    val email: String,
-    val avatar: String?
-)
+data class GoogleTokenRequest(val token: String)
 
 interface AuthService {
     @POST("auth/google-login")
-    fun loginWithGoogle(@Body request: GoogleTokenRequest): Call<AuthResponse>
+    fun loginWithGoogle(@Body request: GoogleTokenRequest): Call<UserProfile>
 }
