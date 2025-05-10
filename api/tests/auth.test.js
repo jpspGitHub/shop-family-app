@@ -7,7 +7,7 @@ const User = require('../models/user');
 const ObjectId = mongoose.Types.ObjectId;
 const expectedId = new ObjectId('64b29cfa9d2e4b8d5c1b1e91');
 
-describe('POST /auth/google-login', () => {
+describe('POST /auth/login', () => {
   // Antes de cada test, mockeamos el verifyIdToken
   beforeAll(() => {
     sinon.stub(admin.auth(), 'verifyIdToken').callsFake((token) => {
@@ -86,7 +86,7 @@ describe('POST /auth/google-login', () => {
 
   it('debe autenticar correctamente con un token válido', async () => {
     const response = await request(app)
-      .post('/api/auth/google-login')
+      .post('/api/auth/login')
       .send({ token: 'valid-token' })
       .expect(200);
 
@@ -98,7 +98,7 @@ describe('POST /auth/google-login', () => {
 
   it('debe rechazar un token inválido', async () => {
     const response = await request(app)
-      .post('/api/auth/google-login')
+      .post('/api/auth/login')
       .send({ token: 'invalid-token' })
       .expect(401);
 

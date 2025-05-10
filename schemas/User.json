@@ -8,6 +8,7 @@
     "locale": { "type": "string", "default": "en" },
     "timezone": { "type": "string", "default": "UTC" },
     "lastLogin": { "type": "date" },
+    "lastLogout": { "type": "date" },
     "active": { "type": "boolean", "default": true },
     "createdAt": { "type": "date", "default": "Date.now" }
   }

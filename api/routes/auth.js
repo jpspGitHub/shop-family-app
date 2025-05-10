@@ -3,9 +3,10 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-// Login with Google
-router.post('/google-login', authController.googleLogin);
+router.post('/login', authController.login);
+router.post('/logout', authMiddleware, authController.logoutUser);
 
 
 module.exports = router;

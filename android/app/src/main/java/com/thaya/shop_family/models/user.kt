@@ -10,6 +10,7 @@ data class User(
     val locale: String,
     val timezone: String,
     val lastLogin: String,
+    val lastLogout: String,
     val active: Boolean,
     val createdAt: String
 )

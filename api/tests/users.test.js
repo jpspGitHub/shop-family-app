@@ -40,7 +40,7 @@ describe.only('GET /users/me (Integración)', () => {
     });
 
     const response = await request(app)
-      .post('/api/auth/google-login')
+      .post('/api/auth/login')
       .send({ token: 'valid-token' });
 
     jwtToken = response.body.token;

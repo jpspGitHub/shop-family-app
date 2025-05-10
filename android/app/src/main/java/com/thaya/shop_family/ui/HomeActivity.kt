@@ -13,6 +13,7 @@ import retrofit2.Call
 import android.util.Log
 import android.widget.Toast
 import com.thaya.shop_family.models.User
+import com.thaya.shop_family.network.UserProfile
 //import com.thaya.shop_family.models.UserProfile
 import com.thaya.shop_family.session.UserSession
 import com.thaya.shop_family.utils.SessionManager
@@ -55,13 +56,33 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_logout -> {
-                    auth.signOut()
-                    sessionManager.clearAuthToken()
-                    navigateToLogin()
+                    logout();
                     true
                 }
                 else -> true // Dummy items
             }
+        }
+    }
+
+    private fun logout() {
+        val token = sessionManager.fetchAuthToken()
+        if (token != null) {
+            RetrofitClient.authService.logout("Bearer $token")
+                .enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            auth.signOut()
+                            sessionManager.clearAuthToken()
+                            navigateToLogin()
+                        } else {
+                            Toast.makeText(this@HomeActivity, "Error al cerrar sesión", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Toast.makeText(this@HomeActivity, "Fallo en la red", Toast.LENGTH_SHORT).show()
+                    }
+                })
         }
     }
 

@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   locale: { type: String, default: 'en' },
   timezone: { type: String, default: 'UTC' },
   lastLogin: { type: Date,  },
+  lastLogout: { type: Date,  },
   active: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now }
 }, { timestamps: true });

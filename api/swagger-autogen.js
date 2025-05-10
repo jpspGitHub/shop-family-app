@@ -10,7 +10,7 @@ doc.paths["/groups"].get.tags = ["Groups"];
 doc.paths["/groups/{id}"].put.tags = ["Groups"];
 doc.paths["/groups/{id}"].delete.tags = ["Groups"];
 
-doc.paths["/auth/google-login"].post.tags = ["Auth"];
+doc.paths["/auth/login"].post.tags = ["Auth"];
 
 // Generar documentación
 swaggerAutogen(outputFile, endpointsFiles, doc);

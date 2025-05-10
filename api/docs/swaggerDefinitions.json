@@ -4,7 +4,9 @@
     "description": "API para la aplicación Shop Family"
   },
   "host": "localhost:5001",
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "tags": [
     {
       "name": "Auth",
@@ -24,9 +26,11 @@
     }
   ],
   "paths": {
-    "/auth/google-login": {
+    "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "description": "Login con Google",
         "requestBody": {
           "required": true,
@@ -54,9 +58,27 @@
         }
       }
     },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Cierra sesión e invalida el token actual",
+        "responses": {
+          "200": {
+            "description": "Logout exitoso"
+          },
+          "500": {
+            "description": "Error al cerrar sesión"
+          }
+        }
+      }
+    },
     "/groups": {
       "post": {
-        "tags": ["Groups"],
+        "tags": [
+          "Groups"
+        ],
         "description": "Crear un nuevo grupo",
         "requestBody": {
           "required": true,
@@ -84,7 +106,9 @@
         }
       },
       "get": {
-        "tags": ["Groups"],
+        "tags": [
+          "Groups"
+        ],
         "description": "Obtener los grupos del usuario",
         "responses": {
           "200": {
@@ -98,7 +122,9 @@
     },
     "/groups/{id}": {
       "put": {
-        "tags": ["Groups"],
+        "tags": [
+          "Groups"
+        ],
         "description": "Actualizar un grupo",
         "parameters": [
           {
@@ -137,7 +163,9 @@
         }
       },
       "delete": {
-        "tags": ["Groups"],
+        "tags": [
+          "Groups"
+        ],
         "description": "Eliminar un grupo",
         "parameters": [
           {

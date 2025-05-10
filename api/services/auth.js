@@ -1,8 +1,9 @@
 const authAgent = require('../serviceAgents/authAgent');
 const userDAO = require('../dataAccess/user');
+const authDAO = require('../dataAccess/auth');
 const jwt = require('jsonwebtoken');
 
-const loginWithGoogle = async (googleToken) => {
+const login = async (googleToken) => {
 
     const googleUser = await authAgent.verifyGoogleToken(googleToken);
     let user = await userDAO.findByEmail(googleUser.email);
@@ -10,13 +11,18 @@ const loginWithGoogle = async (googleToken) => {
     if (!user) {
         user = await userDAO.createFromGoogle(googleUser);
     }else {
-        await userDAO.updateById(user._id, { lastLogin: new Date() });
+        await authDAO.login(user._id);
         user = await userDAO.findById(user._id); 
     }
 
     const token = generateToken(user);
     return { user, token };
 };
+
+const logoutUser = async (userId) => {
+  let user = await authDAO.logoutUser(userId);
+  return user;
+}
 
 const generateToken = (user) => {
     const payload = {
@@ -28,8 +34,21 @@ const generateToken = (user) => {
     return jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: '7d'
     });
-  };
+}
+
+const addBlacklistToken = async (token) => {
+  const tokenBlacklist = await authDAO.addBlacklistToken(token);
+  return tokenBlacklist;
+}
+
+const isTokenBlacklisted = async (token) => {
+  const blacklistedToken = await authDAO.isTokenBlacklisted(token);
+  return !!blacklistedToken;
+}
   
 module.exports = {
-    loginWithGoogle
+  login,
+  logoutUser,
+  addBlacklistToken,
+  isTokenBlacklisted
 };

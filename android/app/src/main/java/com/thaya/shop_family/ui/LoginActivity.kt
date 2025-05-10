@@ -114,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun sendTokenToBackend(token: String?, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val request = GoogleTokenRequest(token.orEmpty())
-        val call = RetrofitClient.authService.loginWithGoogle(request)
+        val call = RetrofitClient.authService.login(request)
 
         call.enqueue(object : retrofit2.Callback<UserProfile> {
             override fun onResponse(call: Call<UserProfile>, response: retrofit2.Response<UserProfile>) {
