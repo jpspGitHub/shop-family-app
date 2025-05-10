@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.thaya.shop_family.models.User
 //import com.thaya.shop_family.models.UserProfile
 import com.thaya.shop_family.session.UserSession
+import com.thaya.shop_family.utils.SessionManager
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -22,18 +23,25 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private val auth = FirebaseAuth.getInstance()
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Verificar si el usuario ya está autenticado
-        if (UserSession.jwtToken != null) {
-            fetchUserProfile()
-        } else {
-            Toast.makeText(this, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+
+        sessionManager = SessionManager(this)
+
+        if (sessionManager.fetchAuthToken() == null) {
+            navigateToLogin()
         }
+        // Verificar si el usuario ya está autenticado
+//        if (UserSession.jwtToken != null) {
+//            fetchUserProfile()
+//        } else {
+//            Toast.makeText(this, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+//        }
         val session = AuthManager.getUserSession()
 
         binding.userNameTextView.text = session?.name
@@ -48,13 +56,19 @@ class HomeActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_logout -> {
                     auth.signOut()
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
+                    sessionManager.clearAuthToken()
+                    navigateToLogin()
                     true
                 }
                 else -> true // Dummy items
             }
         }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun fetchUserProfile() {

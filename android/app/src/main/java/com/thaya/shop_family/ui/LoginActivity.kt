@@ -18,6 +18,7 @@ import com.thaya.shop_family.network.GoogleTokenRequest
 import com.thaya.shop_family.network.RetrofitClient
 import com.thaya.shop_family.network.UserProfile
 import com.thaya.shop_family.session.UserSession
+import com.thaya.shop_family.utils.SessionManager
 import retrofit2.Call
 
 
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var sessionManager: SessionManager
 
     private val launcher = registerForActivityResult(
         androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
@@ -45,7 +47,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sessionManager = SessionManager(this)
         firebaseAuth = FirebaseAuth.getInstance()
+
+        // Si ya hay un token, navegar al Home directamente
+        if (sessionManager.fetchAuthToken() != null) {
+            navigateToHome()
+        }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -60,12 +68,17 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateToHome() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
                     handlingSuccessLogIn();
                 } else {
                     showErrorDialog("Error de autenticación con Firebase.")
@@ -82,9 +95,11 @@ class LoginActivity : AppCompatActivity() {
                 sendTokenToBackend(
                     firebaseIdToken,
                     onSuccess = {
-                        val intent = Intent(this, HomeActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        navigateToHome()
+                        if (UserSession.jwtToken != null) {
+                            sessionManager.saveAuthToken(UserSession.jwtToken.toString())
+                        }
+
                     },
                     onFailure = {
                         showErrorDialog("Error de autenticación con Firebase.")
