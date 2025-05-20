@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import authDAO from '../../../dataAccess/auth.js';
+import authDAO from '../../../dataAccess/authDAO.js';
 import User from '../../../models/User.js';
 import TokenBlacklist from '../../../models/tokenBlacklist.js';
 

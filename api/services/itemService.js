@@ -1,4 +1,4 @@
-import itemDAO from '../dataAccess/item.js';
+import itemDAO from '../dataAccess/itemDAO.js';
 
 const getItemsByGroup = async (groupId) => {
   return await itemDAO.findByGroupId(groupId);

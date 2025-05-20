@@ -1,10 +1,10 @@
 import sinon from 'sinon';
 import groupService from '../../../services/groupService.js';
-import groupDAO from '../../../dataAccess/group.js';
+import groupDAO from '../../../dataAccess/groupDAO.js';
+import userDAO from '../../../dataAccess/userDAO.js';
+import { afterAll, jest } from '@jest/globals'
 
 describe('groupService', () => {
-  
-  
   afterEach(() => {
     sinon.restore();
   });
@@ -48,4 +48,91 @@ describe('groupService', () => {
       expect(result).toEqual(deletedGroup);
     });
   });
+
+  describe('addMember', () => {
+    const groupId = 'group123';
+    const requesterId = 'adminUserId';
+    const userId = 'newUserId';
+
+    const baseGroup = {
+      _id: groupId,
+      name: 'Grupo Test',
+      members: [
+        { user: requesterId, role: 'admin' },
+        { user: 'memberUserId', role: 'member' },
+      ]
+    };
+
+    afterEach(() => { 
+      jest.clearAllMocks(); 
+      jest.restoreAllMocks(); 
+    });
+
+    it('Agrega miembro exitosamente', async () => {
+      jest.spyOn(userDAO, 'findById').mockResolvedValue({ _id: userId });
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue({ ...baseGroup });
+      jest.spyOn(groupDAO, 'addMemberToGroup').mockResolvedValue({
+        ...baseGroup,
+        members: [...baseGroup.members, { user: userId, role: 'member' }]
+      });
+
+      const result = await groupService.addMember({ groupId, requesterId, userId, role: 'member' });
+
+      expect(userDAO.findById).toHaveBeenCalledWith(userId);
+      expect(groupDAO.findById).toHaveBeenCalledWith(groupId);
+      expect(groupDAO.addMemberToGroup).toHaveBeenCalledWith(groupId, userId, 'member');
+      expect(result.message).toBe('Miembro agregado exitosamente');
+      expect(result.group.members).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ user: userId, role: 'member' })
+        ])
+      );
+    });
+
+    it('Falla si el grupo no existe', async () => {
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue(null);
+
+      await expect(groupService.addMember({ groupId, requesterId, userId }))
+        .rejects.toMatchObject({ code: 'NOT_FOUND', message: 'Grupo no encontrado' });
+    });
+
+    it('Falla si el requester no es admin', async () => {
+      const groupNoAdmin = {
+        ...baseGroup,
+        members: [{ user: requesterId, role: 'member' }]
+      };
+      
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue(groupNoAdmin);
+
+      await expect(groupService.addMember({ groupId, requesterId, userId }))
+        .rejects.toMatchObject({ code: 'FORBIDDEN', message: 'No autorizado' });
+    });
+
+    it('Falla si el usuario ya es miembro', async () => {
+      const groupWithUser = {
+        ...baseGroup,
+        members: [...baseGroup.members, { user: userId, role: 'member' }]
+      };
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue(groupWithUser);
+
+      await expect(groupService.addMember({ groupId, requesterId, userId }))
+        .rejects.toMatchObject({ code: 'CONFLICT', message: 'El usuario ya es miembro' });
+    });
+
+    it('Falla si el usuario no existe', async () => {
+      jest.spyOn(userDAO, 'findById').mockResolvedValue(null);
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue(baseGroup);
+      
+      await expect(groupService.addMember({ groupId, requesterId, userId }))
+        .rejects.toMatchObject({ code: 'NOT_FOUND', message: 'Usuario no encontrado' });
+    });
+
+    it('Falla si el rol es inválido', async () => {
+      await expect(groupService.addMember({ groupId, requesterId, userId, role: 'adminn' }))
+        .rejects.toMatchObject({ code: 'BAD_REQUEST', message: 'Rol inválido' });
+    });
+  });
 });
+
+
+

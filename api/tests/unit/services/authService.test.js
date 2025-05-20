@@ -2,8 +2,8 @@ import sinon from 'sinon';
 import jwt from 'jsonwebtoken';
 import authService from '../../../services/authService.js';
 import authAgent from '../../../serviceAgents/authAgent.js';
-import userDAO from '../../../dataAccess/user.js';
-import authDAO from '../../../dataAccess/auth.js';
+import userDAO from '../../../dataAccess/userDAO.js';
+import authDAO from '../../../dataAccess/authDAO.js';
 import jest from 'jest-mock';
 describe('authService', () => {
   

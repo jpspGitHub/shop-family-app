@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import userService from '../../../services/userService.js';
-import userDAO from '../../../dataAccess/user.js';
+import userDAO from '../../../dataAccess/userDAO.js';
 
 describe('userService', () => {
   

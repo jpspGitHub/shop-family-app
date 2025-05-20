@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import itemDAO from '../../../dataAccess/item.js';
+import itemDAO from '../../../dataAccess/itemDAO.js';
 import Item from '../../../models/Item.js';
 
 describe('itemDAO', () => {

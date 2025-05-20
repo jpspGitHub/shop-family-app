@@ -30,6 +30,52 @@ router.post('/', authMiddleware, async (req, res) => {
   return groupController.createGroup(req, res);
 });
 
+router.post('/:groupId/add-member', authMiddleware, async (req, res) => {
+  /* #swagger.tags = ['Groups']
+     #swagger.description = 'Agrega un usuario a un grupo existente. Solo los administradores pueden realizar esta acción.'
+     #swagger.security = [{ "BearerAuth": [] }]
+     #swagger.parameters['groupId'] = {
+        in: 'path',
+        description: 'ID del grupo',
+        required: true,
+        type: 'string'
+     }
+     #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                userId: { type: "string", example: "664001122abcde0011223344" },
+                role: { type: "string", enum: ["admin", "member"], default: "member" }
+              },
+              required: ["userId"]
+            }
+          }
+        }
+      }
+     #swagger.responses[200] = {
+        description: 'Usuario agregado exitosamente al grupo',
+        schema: {
+          message: { type: "string", example: "Miembro agregado exitosamente" },
+          group: { $ref: "#/definitions/Group" }
+        }
+     }
+     #swagger.responses[403] = {
+        description: 'No autorizado: solo administradores pueden agregar miembros'
+     }
+     #swagger.responses[404] = {
+        description: 'Grupo o usuario no encontrado'
+     }
+     #swagger.responses[409] = {
+        description: 'El usuario ya es miembro del grupo'
+     }
+  */
+  return groupController.addMember(req, res);
+});
+
+
 router.get('/', authMiddleware, async (req, res) => {
   /* #swagger.tags = ['Groups']
      #swagger.description = 'Obtiene todos los grupos del usuario autenticado'

@@ -25,6 +25,22 @@ async function createGroup(req, res) {
   }
 }
 
+async function addMember (req, res) {
+  const { groupId } = req.params;
+  const { userId, role } = req.body;
+  const requesterId = req.user._id;
+
+  try {
+    const result = await groupService.addMember({ groupId, requesterId, userId, role });
+    return res.status(200).json(result);
+  } catch (err) {
+    if (err.code === 'FORBIDDEN') return res.status(403).json({ message: err.message });
+    if (err.code === 'NOT_FOUND') return res.status(404).json({ message: err.message });
+    if (err.code === 'CONFLICT') return res.status(409).json({ message: err.message });
+    return res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
 async function getGroupsByUser(req, res) {
   try {
     const groups = await groupService.getGroupsByUser(req.user.id);
@@ -72,6 +88,7 @@ async function deleteGroup(req, res) {
 
 export default {
   createGroup,
+  addMember,
   getGroupsByUser,
   updateGroup,
   deleteGroup

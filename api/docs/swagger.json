@@ -194,6 +194,96 @@
         ]
       }
     },
+    "/api/groups/{groupId}/add-member": {
+      "post": {
+        "tags": [
+          "Groups"
+        ],
+        "description": "Agrega un usuario a un grupo existente. Solo los administradores pueden realizar esta acción.",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID del grupo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario agregado exitosamente al grupo",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "example": {
+                      "type": "string",
+                      "example": "Miembro agregado exitosamente"
+                    }
+                  }
+                },
+                "group": {
+                  "$ref": "#/definitions/Group"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "No autorizado: solo administradores pueden agregar miembros"
+          },
+          "404": {
+            "description": "Grupo o usuario no encontrado"
+          },
+          "409": {
+            "description": "El usuario ya es miembro del grupo"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "664001122abcde0011223344"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "admin",
+                      "member"
+                    ],
+                    "default": "member"
+                  }
+                },
+                "required": [
+                  "userId"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/groups/{id}": {
       "put": {
         "tags": [

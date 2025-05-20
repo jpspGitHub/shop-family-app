@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import mongoose from 'mongoose';
-import groupDAO from '../../../dataAccess/group.js';
+import groupDAO from '../../../dataAccess/groupDAO.js';
 import Group from '../../../models/Group.js';
 
 describe('groupDAO', () => {

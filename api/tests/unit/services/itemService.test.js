@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import itemDAO from '../../../dataAccess/item.js';
+import itemDAO from '../../../dataAccess/itemDAO.js';
 import itemService from '../../../services/itemService.js';
 
 describe('itemService', () => {
