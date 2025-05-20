@@ -1,16 +1,15 @@
 // app.js
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express from 'express';
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./docs/swagger.json');
-
-const authRoutes = require('./routes/auth');
-const groupRoutes = require('./routes/groups');
-const itemRoutes = require('./routes/items');
-const userRoutes = require('./routes/users');
-const ROUTES = require('./utils/routes');
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './docs/swagger.json';
+import authRoutes from './routes/auth';
+import groupRoutes from './routes/groups';
+import itemRoutes from './routes/items';
+import userRoutes from './routes/users';
+import ROUTES from './utils/routes';
 
 const app = express();
 
@@ -32,4 +31,4 @@ app.get('/', (req, res) => {
 // Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-module.exports = app;
+export default app;

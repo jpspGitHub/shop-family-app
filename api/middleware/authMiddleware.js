@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const authService = require('../services/auth');
+import jwt from 'jsonwebtoken';
+import authService from '../services/authService';
 
 const authMiddleware = async (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
@@ -23,9 +23,9 @@ const authMiddleware = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error('❌ Error al verificar el token:', error.message);
-    res.status(401).json({ message: 'Token inválido.' });
+    // console.error('❌ Error al verificar el token:', error.message);
+    res.status(401).json({ message: 'Acceso no autorizado.' });
   }
 };
 
-module.exports = authMiddleware;
+export default authMiddleware;

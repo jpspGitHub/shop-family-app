@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const itemController = require('../controllers/itemController');
-const authMiddleware = require('../middleware/authMiddleware');
+import itemController from '../controllers/itemController';
+import authMiddleware from '../middleware/authMiddleware';
 
 router.use(authMiddleware);
 
@@ -37,4 +37,4 @@ router.put('/:itemId', itemController.updateItem);
  */
 router.delete('/:itemId', itemController.deleteItem);
 
-module.exports = router;
+export default router;

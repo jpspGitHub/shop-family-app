@@ -1,6 +1,6 @@
-const User = require('../models/user');
-const TokenBlacklist = require('../models/tokenBlacklist');
-const mongoose = require('mongoose');
+import User from '../models/user';
+import TokenBlacklist from '../models/tokenBlacklist';
+import mongoose from 'mongoose';
 
 const login = async (userId) => {
     const user = await User.findByIdAndUpdate(userId, { lastLogin: new Date() });
@@ -22,7 +22,7 @@ const isTokenBlacklisted = async (token) => {
     return !!blacklistedToken;
 }
 
-module.exports = {
+export default {
     login,
     logoutUser,
     addBlacklistToken,

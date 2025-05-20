@@ -1,4 +1,4 @@
-const itemDAO = require('../dataAccess/item');
+import itemDAO from '../dataAccess/item';
 
 const getItemsByGroup = async (groupId) => {
   return await itemDAO.findByGroupId(groupId);
@@ -16,7 +16,7 @@ const deleteItem = async (itemId) => {
   return await itemDAO.remove(itemId);
 };
 
-module.exports = {
+export default {
   // item
   getItemsByGroup,
   addItem,

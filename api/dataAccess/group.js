@@ -1,7 +1,12 @@
-const Group = require('../models/group');
+import Group from '../models/group';
 
 const create = async (name, userId) => {
-  const group = new Group({ name, members: [userId] });
+    const group = new Group({
+      name,
+      members: [{ user: userId, role: 'admin' }]
+    });
+
+    await group.save();
   return await group.save();
 };
 
@@ -24,7 +29,7 @@ const deleteGroup = async (id) => {
   return group;
 }
 
-module.exports = {
+export default {
   create,
   findByUserId,
   updateGroup,

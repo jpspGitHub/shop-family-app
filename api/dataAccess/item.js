@@ -1,17 +1,24 @@
-const Item = require('../models/item');
+import Item from '../models/item';
 
-exports.findByGroupId = async (groupId) => {
+async function findByGroupId(groupId) {
   return await Item.find({ groupId });
-};
+}
 
-exports.create = async (data) => {
+async function create(data) {
   return await new Item(data).save();
-};
+}
 
-exports.update = async (itemId, updates) => {
+async function update(itemId, updates) {
   return await Item.findByIdAndUpdate(itemId, updates, { new: true });
-};
+}
 
-exports.delete = async (itemId) => {
+async function remove(itemId) {
   return await Item.findByIdAndDelete(itemId);
+}
+
+export default {
+  findByGroupId,
+  create,
+  update,
+  remove
 };

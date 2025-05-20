@@ -1,4 +1,4 @@
-const groupDAO = require('../dataAccess/group');
+import groupDAO from '../dataAccess/group';
 
 const createGroup = async (name, userId) => {
   return await groupDAO.create(name, userId);
@@ -18,7 +18,7 @@ const deleteGroup = async (id) => {
   return group;
 }
 
-module.exports = {
+export default {
   createGroup,
   getGroupsByUser,
   updateGroup,

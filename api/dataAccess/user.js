@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const mongoose = require('mongoose');
+import User from '../models/User.js';
+import mongoose from 'mongoose';
 
 const findByEmail = async (email) => {
   return await User.findOne({ email });
@@ -32,7 +32,7 @@ const deleteById = async (id) => {
   return await User.findByIdAndDelete(id);
 };
 
-module.exports = {
+export default {
   findById,
   updateById,
   deleteById,

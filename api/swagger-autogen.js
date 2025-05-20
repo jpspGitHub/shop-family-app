@@ -1,5 +1,5 @@
 const swaggerAutogen = require('swagger-autogen')();
-const doc = require('./docs/swaggerDefinitions.json');
+import doc from './docs/swaggerDefinitions.json';
 
 const outputFile = './docs/swagger.json';
 const endpointsFiles = ['./routes/groups.js', './routes/auth.js', './routes/items.js', './routes/users.js'];

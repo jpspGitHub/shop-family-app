@@ -1,10 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const GroupSchema = new mongoose.Schema({
   _id: { type: String,  },
   name: { type: String, required: true },
-  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  members: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    role: { type: String, enum: ['admin', 'member'], default: 'member' }
+  }],
   createdAt: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Group', GroupSchema);
+export default mongoose.model('Group', GroupSchema);

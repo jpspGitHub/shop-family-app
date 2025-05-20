@@ -1,4 +1,4 @@
-const userDAO = require('../dataAccess/user');
+import userDAO from '../dataAccess/user';
 
 const getUserById = async (id) => {
   return await userDAO.findById(id);
@@ -12,7 +12,7 @@ const deleteUser = async (id) => {
   return await userDAO.deleteById(id);
 };
 
-module.exports = {
+export default {
   getUserById,
   updateUser,
   deleteUser

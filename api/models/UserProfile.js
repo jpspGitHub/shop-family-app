@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const UserProfileSchema = new mongoose.Schema({
   token: { type: String,  },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
-module.exports = mongoose.model('UserProfile', UserProfileSchema);
+export default mongoose.model('UserProfile', UserProfileSchema);

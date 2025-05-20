@@ -1,7 +1,7 @@
 {
     "_id": { "type": "string" },
     "name": { "type": "string", "required": true },
-    "members": { "type": "array", "ref": "User" },
+    "members": { "type": "array", "ref": "UserGroup" },
     "createdAt": { "type": "date", "default": "Date.now" }
   }
   

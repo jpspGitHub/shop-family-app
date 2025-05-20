@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const config = JSON.parse(fs.readFileSync('./generateConfig.json'));
 

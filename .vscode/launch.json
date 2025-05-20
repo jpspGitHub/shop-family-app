@@ -1,23 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run Jest Tests",
-            "program": "${workspaceFolder}/api/node_modules/jest/bin/jest.js",
-            "args": [
-                "--config",
-                "${workspaceFolder}/api/jest.config.js",
-                "--runInBand"
-            ],
-            "env": {
-                "NODE_ENV": "test"
-            },
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "cwd": "${workspaceFolder}"
-        },
+       
         {
             "type": "node",
             "request": "launch",

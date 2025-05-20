@@ -1,7 +1,7 @@
-const authAgent = require('../serviceAgents/authAgent');
-const userDAO = require('../dataAccess/user');
-const authDAO = require('../dataAccess/auth');
-const jwt = require('jsonwebtoken');
+import authAgent from '../serviceAgents/authAgent';
+import userDAO from '../dataAccess/user';
+import authDAO from '../dataAccess/auth';
+import jwt from 'jsonwebtoken';
 
 const login = async (googleToken) => {
 
@@ -45,8 +45,8 @@ const isTokenBlacklisted = async (token) => {
   const blacklistedToken = await authDAO.isTokenBlacklisted(token);
   return !!blacklistedToken;
 }
-  
-module.exports = {
+
+export default {
   login,
   logoutUser,
   addBlacklistToken,

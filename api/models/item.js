@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ItemSchema = new mongoose.Schema({
   _id: { type: String,  },
@@ -10,4 +10,4 @@ const ItemSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Item', ItemSchema);
+export default mongoose.model('Item', ItemSchema);

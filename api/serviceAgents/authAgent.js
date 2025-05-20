@@ -1,11 +1,20 @@
-const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+import admin from 'firebase-admin';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
 
-const admin = require("firebase-admin");
+// Para simular __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Ruta al archivo JSON
+const serviceAccountPath = path.join(__dirname, '../config/serviceAccountKey.json');
+const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, 'utf-8'));
 
 admin.initializeApp({
-  credential: admin.credential.cert(require("../config/serviceAccountKey.json")),
+  credential: admin.credential.cert(serviceAccount)
 });
+
 
 async function verifyGoogleToken(token) {
   try {
@@ -22,6 +31,6 @@ async function verifyGoogleToken(token) {
 }
 
 
-module.exports = {
+export default {
   verifyGoogleToken
 };

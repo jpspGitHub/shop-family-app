@@ -1,6 +1,6 @@
-const authService = require('../services/auth');
+import authService from '../services/authService.js';
 
-exports.login = async (req, res) => {
+async function login(req, res) {
   try {
     const googleToken = req.body.token;
 
@@ -16,12 +16,12 @@ exports.login = async (req, res) => {
      });
 
   } catch (error) {
-    console.error('Login failed:', error.message);
+    // console.error('Login failed:', error.message);
     res.status(401).json({ message: 'Authentication failed' });
   }
-};
+}
 
-exports.logoutUser = async (req, res) => {
+async function logoutUser(req, res) {
   try {
     const userId = req.user.id;
 
@@ -33,7 +33,11 @@ exports.logoutUser = async (req, res) => {
 
     res.status(200).json({ message: 'Logout registrado correctamente.' });
   } catch (error) {
-    console.error('Error al registrar logout:', error.message);
     res.status(500).json({ message: 'Error al registrar logout.' });
   }
+}
+
+export default {
+  login,
+  logoutUser
 };
