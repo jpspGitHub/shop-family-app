@@ -1,15 +1,18 @@
 // app.js
 import express from 'express';
-
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './docs/swagger.json';
-import authRoutes from './routes/auth';
-import groupRoutes from './routes/groups';
-import itemRoutes from './routes/items';
-import userRoutes from './routes/users';
-import ROUTES from './utils/routes';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const swaggerDocument = require('./docs/swagger.json');
+
+
+import authRoutes from './routes/auth.js';
+import groupRoutes from './routes/groups.js';
+import itemRoutes from './routes/items.js';
+import userRoutes from './routes/users.js';
 
 const app = express();
 
@@ -18,10 +21,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
-app.use(ROUTES.AUTH, authRoutes);
-app.use(ROUTES.GROUPS, groupRoutes);
-app.use(ROUTES.ITEMS, itemRoutes);
-app.use(ROUTES.USERS, userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/groups', groupRoutes);
+app.use('/api/items', itemRoutes);
+app.use('/api/users', userRoutes);
 
 // Root check
 app.get('/', (req, res) => {

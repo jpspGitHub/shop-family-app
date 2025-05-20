@@ -4,6 +4,8 @@ import groupDAO from '../../../dataAccess/group.js';
 import Group from '../../../models/Group.js';
 
 describe('groupDAO', () => {
+  
+  
   afterEach(() => {
     sinon.restore();
   });
@@ -14,7 +16,7 @@ describe('groupDAO', () => {
 
       const group = await groupDAO.create('Grupo Test', new mongoose.Types.ObjectId());
 
-      expect(saveStub.calledTwice).toBe(true);
+      expect(saveStub.calledOnce).toBe(true);
       expect(group).toBeDefined();
     });
   });

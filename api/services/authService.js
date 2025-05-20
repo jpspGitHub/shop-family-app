@@ -1,6 +1,6 @@
-import authAgent from '../serviceAgents/authAgent';
-import userDAO from '../dataAccess/user';
-import authDAO from '../dataAccess/auth';
+import authAgent from '../serviceAgents/authAgent.js';
+import userDAO from '../dataAccess/user.js';
+import authDAO from '../dataAccess/auth.js';
 import jwt from 'jsonwebtoken';
 
 const login = async (googleToken) => {

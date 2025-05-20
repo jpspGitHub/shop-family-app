@@ -1,4 +1,4 @@
-import groupDAO from '../dataAccess/group';
+import groupDAO from '../dataAccess/group.js';
 
 const createGroup = async (name, userId) => {
   return await groupDAO.create(name, userId);

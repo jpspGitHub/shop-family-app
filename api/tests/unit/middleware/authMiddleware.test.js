@@ -5,7 +5,8 @@ import authService from '../../../services/authService.js';
 
 describe('authMiddleware', () => {
   let req, res, next;
-
+  
+  
   beforeEach(() => {
     req = {
       header: sinon.stub().returns(undefined)

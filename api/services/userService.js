@@ -1,4 +1,4 @@
-import userDAO from '../dataAccess/user';
+import userDAO from '../dataAccess/user.js';
 
 const getUserById = async (id) => {
   return await userDAO.findById(id);

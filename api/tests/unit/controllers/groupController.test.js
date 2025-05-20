@@ -1,11 +1,12 @@
 import sinon from 'sinon';
-import * as groupController from '../../../controllers/groupController.js';
+import groupController from '../../../controllers/groupController.js';
 import groupService from '../../../services/groupService.js';
 import userService from '../../../services/userService.js';
 
 describe('groupController', () => {
   let req, res;
-
+  
+  
   beforeEach(() => {
     req = {
       user: { id: 'user123' },

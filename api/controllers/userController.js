@@ -6,7 +6,7 @@ async function getProfile(req, res) {
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(user);
   } catch (err) {
-    // console.error('Error fetching user profile:', err);
+    console.error('Error fetching user profile:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
@@ -17,7 +17,7 @@ async function updateProfile(req, res) {
     if (!updatedUser) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(updatedUser);
   } catch (err) {
-    // console.error('Error updating user profile:', err);
+    console.error('Error updating user profile:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
@@ -27,7 +27,7 @@ async function deleteAccount(req, res) {
     await userService.deleteUser(req.user.id);
     res.status(204).end();
   } catch (err) {
-    // console.error('Error deleting user:', err);
+    console.error('Error deleting user:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 }

@@ -1,6 +1,5 @@
-import User from '../models/user';
-import TokenBlacklist from '../models/tokenBlacklist';
-import mongoose from 'mongoose';
+import User from '../models/User.js';
+import TokenBlacklist from '../models/tokenBlacklist.js';
 
 const login = async (userId) => {
     const user = await User.findByIdAndUpdate(userId, { lastLogin: new Date() });

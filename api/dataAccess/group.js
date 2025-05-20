@@ -1,17 +1,16 @@
-import Group from '../models/group';
+import Group from '../models/group.js';
 
 const create = async (name, userId) => {
-    const group = new Group({
-      name,
-      members: [{ user: userId, role: 'admin' }]
-    });
+  const group = new Group({
+    name,
+    members: [{ user: userId, role: 'admin' }]
+  });
 
-    await group.save();
   return await group.save();
 };
 
 const findByUserId = async (userId) => {
-  return await Group.find({ members: userId });
+  return await Group.find({ 'members.user': userId });
 };
 
 const updateGroup = async (id, name) => {

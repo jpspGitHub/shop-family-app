@@ -1,7 +1,8 @@
+import e from 'express';
 import groupService from '../services/groupService.js';
 import userService from '../services/userService.js';
 
-export async function createGroup(req, res) {
+async function createGroup(req, res) {
   try {
     const { name } = req.body;
 
@@ -19,22 +20,22 @@ export async function createGroup(req, res) {
     const group = await groupService.createGroup(req.body.name, req.user.id);
     res.status(201).json(group);
   } catch (err) {
-    // console.error('Error creating group:', err);
+    console.error('Error creating group:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
 
-export async function getGroupsByUser(req, res) {
+async function getGroupsByUser(req, res) {
   try {
     const groups = await groupService.getGroupsByUser(req.user.id);
     res.status(200).json(groups);
   } catch (err) {
-    // console.error('Error fetching groups:', err);
+    console.error('Error fetching groups:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
 
-export async function updateGroup(req, res) {
+async function updateGroup(req, res) {
   try {
     const { id } = req.params;
     const { name } = req.body;
@@ -47,12 +48,12 @@ export async function updateGroup(req, res) {
 
     res.status(200).json(group);
   } catch (error) {
-    // console.error('Error al actualizar grupo:', error.message);
+    console.error('Error al actualizar grupo:', error.message);
     res.status(500).json({ message: 'Error al actualizar el grupo.' });
   }
 }
 
-export async function deleteGroup(req, res) {
+async function deleteGroup(req, res) {
   try {
     const { id } = req.params;
 
@@ -64,8 +65,14 @@ export async function deleteGroup(req, res) {
 
     res.status(200).json({ message: 'Grupo eliminado correctamente.' });
   } catch (error) {
-    // console.error('Error al eliminar grupo:', error.message);
+    console.error('Error al eliminar grupo:', error.message);
     res.status(500).json({ message: 'Error al eliminar el grupo.' });
   }
 }
 
+export default {
+  createGroup,
+  getGroupsByUser,
+  updateGroup,
+  deleteGroup
+}; 

@@ -1,4 +1,4 @@
-import Item from '../models/item';
+import Item from '../models/item.js';
 
 async function findByGroupId(groupId) {
   return await Item.find({ groupId });

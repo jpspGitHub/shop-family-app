@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const ItemSchema = new mongoose.Schema({
-  _id: { type: String,  },
   name: { type: String, required: true },
   quantity: { type: String, default: 1 },
   isPurchased: { type: Boolean,  },

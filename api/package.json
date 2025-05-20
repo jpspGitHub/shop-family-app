@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test node --experimental-vm-modules node_modules/.bin/jest",
     "test:coverage": "NODE_ENV=test node --experimental-vm-modules node_modules/.bin/jest --coverage",
     "mongo:local": "mongod --dbpath ~/mongodb/data/db --port 27017",
-    "prepare": "cd .. && husky install api/.husky"
+    "gen-docs": "node swagger-autogen.cjs"
   },
   "repository": {
     "type": "git",

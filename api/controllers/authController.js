@@ -16,7 +16,7 @@ async function login(req, res) {
      });
 
   } catch (error) {
-    // console.error('Login failed:', error.message);
+    console.error('Login failed:', error.message);
     res.status(401).json({ message: 'Authentication failed' });
   }
 }
