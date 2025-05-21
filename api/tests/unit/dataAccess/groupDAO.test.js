@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import mongoose from 'mongoose';
+import mongoMemory from '../../support/mongoMemory.js';
 import groupDAO from '../../../dataAccess/groupDAO.js';
 import Group from '../../../models/Group.js';
 
@@ -50,4 +51,62 @@ describe('groupDAO', () => {
       expect(result).toEqual(deleted);
     });
   });
+
+  describe('updateMemberRole', () => {
+    let group;
+  
+    beforeAll(async () => {
+      await mongoMemory.connectTestDB();
+    });
+  
+    beforeEach(async () => {
+      await Group.deleteMany({});
+  
+      group = await Group.create({
+        name: 'Grupo Test',
+        members: [
+          { user: new mongoose.Types.ObjectId('000000000000000000000001'), role: 'admin' },
+          { user: new mongoose.Types.ObjectId('000000000000000000000002'), role: 'member' },
+        ]
+      });
+    });
+  
+    afterAll(async () => {
+      await mongoMemory.disconnectTestDB();
+
+    });
+  
+    it('actualiza correctamente el rol del miembro', async () => {
+      const result = await groupDAO.updateMemberRole(
+        group._id,
+        '000000000000000000000002',
+        'admin'
+      );
+  
+      const updated = result.members.find(
+        (m) => m.user.toString() === '000000000000000000000002'
+      );
+  
+      expect(updated.role).toBe('admin');
+    });
+  
+    it('retorna null si el grupo no existe', async () => {
+      const fakeGroupId = new mongoose.Types.ObjectId();
+      const result = await groupDAO.updateMemberRole(fakeGroupId, '000000000000000000000002', 'admin');
+  
+      expect(result).toBeNull();
+    });
+  
+    it('retorna null si el usuario no es miembro del grupo', async () => {
+      const result = await groupDAO.updateMemberRole(
+        group._id,
+        '000000000000000000000099',
+        'admin'
+      );
+  
+      expect(result).toBeNull();
+    });
+  });
+
+  
 });

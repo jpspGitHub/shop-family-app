@@ -35,6 +35,20 @@ const findById = async (id) => {
   return await Group.findById(id);
 };
 
+const updateMemberRole = async (groupId, userId, newRole) => {
+  const group = await Group.findById(groupId);
+  if (!group) return null;
+
+  const member = group.members.find(
+    (m) => m.user.toString() === userId.toString()
+  );
+
+  if (!member) return null;
+
+  member.role = newRole;
+  const updatedGroup = await group.save();
+  return updatedGroup;
+}
 
 
 const deleteGroup = async (id) => {
@@ -48,5 +62,6 @@ export default {
   findByUserId,
   updateGroup,
   deleteGroup,
-  findById
+  findById,
+  updateMemberRole
 };

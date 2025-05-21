@@ -86,10 +86,41 @@ async function deleteGroup(req, res) {
   }
 }
 
+async function updateMemberRole(req, res) {
+  const { groupId, userId } = req.params;
+  const { role } = req.body;
+  const requesterId = req.user._id;
+
+  try {
+    const result = await groupService.updateMemberRole({
+      groupId,
+      requesterId,
+      userId,
+      role,
+    });
+
+    return res.status(200).json(result);
+
+  } catch (err) {
+    switch (err.code) {
+      case 'BAD_REQUEST':
+        return res.status(400).json({ message: err.message });
+      case 'FORBIDDEN':
+        return res.status(403).json({ message: err.message });
+      case 'NOT_FOUND':
+        return res.status(404).json({ message: err.message });
+      case 'INTERNAL_ERROR':
+        return res.status(500).json({ message: err.message });
+      default:
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  }
+};
 export default {
   createGroup,
   addMember,
   getGroupsByUser,
   updateGroup,
-  deleteGroup
+  deleteGroup,
+  updateMemberRole
 }; 

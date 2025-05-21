@@ -63,9 +63,9 @@ describe('groupService', () => {
       ]
     };
 
-    afterEach(() => { 
-      jest.clearAllMocks(); 
-      jest.restoreAllMocks(); 
+    afterEach(() => {
+      jest.clearAllMocks();
+      jest.restoreAllMocks();
     });
 
     it('Agrega miembro exitosamente', async () => {
@@ -101,7 +101,7 @@ describe('groupService', () => {
         ...baseGroup,
         members: [{ user: requesterId, role: 'member' }]
       };
-      
+
       jest.spyOn(groupDAO, 'findById').mockResolvedValue(groupNoAdmin);
 
       await expect(groupService.addMember({ groupId, requesterId, userId }))
@@ -122,7 +122,7 @@ describe('groupService', () => {
     it('Falla si el usuario no existe', async () => {
       jest.spyOn(userDAO, 'findById').mockResolvedValue(null);
       jest.spyOn(groupDAO, 'findById').mockResolvedValue(baseGroup);
-      
+
       await expect(groupService.addMember({ groupId, requesterId, userId }))
         .rejects.toMatchObject({ code: 'NOT_FOUND', message: 'Usuario no encontrado' });
     });
@@ -130,6 +130,101 @@ describe('groupService', () => {
     it('Falla si el rol es inválido', async () => {
       await expect(groupService.addMember({ groupId, requesterId, userId, role: 'adminn' }))
         .rejects.toMatchObject({ code: 'BAD_REQUEST', message: 'Rol inválido' });
+    });
+  });
+
+  describe('updateMemberRole', () => {
+    const groupId = 'group123';
+    const requesterId = 'admin123';
+    const userId = 'member456';
+
+    const baseGroup = {
+      _id: groupId,
+      members: [
+        { user: requesterId, role: 'admin' },
+        { user: userId, role: 'member' },
+      ]
+    };
+
+    afterEach(() => {
+      jest.clearAllMocks();
+      jest.restoreAllMocks();
+    });
+
+    it('actualiza el rol correctamente', async () => {
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue({ ...baseGroup });
+      jest.spyOn(groupDAO, 'updateMemberRole').mockResolvedValue({
+        ...baseGroup,
+        members: [
+          { user: requesterId, role: 'admin' },
+          { user: userId, role: 'admin' }
+        ]
+      });
+
+
+      const result = await groupService.updateMemberRole({ groupId, requesterId, userId, role: 'admin' });
+
+      expect(result.message).toBe('Rol actualizado correctamente');
+      expect(result.group.members).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ user: userId, role: 'admin' })
+        ])
+      );
+    });
+
+    it('lanza error si el rol es inválido', async () => {
+      await expect(
+        groupService.updateMemberRole({ groupId, requesterId, userId, role: 'superadmin' })
+      ).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    });
+
+    it('lanza error si intenta cambiar su propio rol', async () => {
+      await expect(
+        groupService.updateMemberRole({ groupId, requesterId, userId: requesterId, role: 'member' })
+      ).rejects.toMatchObject({ code: 'FORBIDDEN' });
+    });
+
+    it('lanza error si el grupo no existe', async () => {
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue(null);
+
+      await expect(
+        groupService.updateMemberRole({ groupId, requesterId, userId, role: 'admin' })
+      ).rejects.toMatchObject({ code: 'NOT_FOUND' });
+    });
+
+    it('lanza error si el requester no es admin', async () => {
+      const noAdminGroup = {
+        ...baseGroup,
+        members: [{ user: requesterId, role: 'member' }]
+      };
+
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue(noAdminGroup);
+
+      await expect(
+        groupService.updateMemberRole({ groupId, requesterId, userId, role: 'admin' })
+      ).rejects.toMatchObject({ code: 'FORBIDDEN' });
+    });
+
+    it('lanza error si el usuario no está en el grupo', async () => {
+      const groupWithoutUser = {
+        ...baseGroup,
+        members: [{ user: requesterId, role: 'admin' }]
+      };
+
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue(groupWithoutUser);
+      
+      await expect(
+        groupService.updateMemberRole({ groupId, requesterId, userId, role: 'admin' })
+      ).rejects.toMatchObject({ code: 'NOT_FOUND' });
+    });
+
+    it('lanza error si updateMemberRole en DAO retorna null', async () => {
+      jest.spyOn(groupDAO, 'findById').mockResolvedValue({ ...baseGroup });
+      jest.spyOn(groupDAO, 'updateMemberRole').mockResolvedValue(null);
+
+      await expect(
+        groupService.updateMemberRole({ groupId, requesterId, userId, role: 'admin' })
+      ).rejects.toMatchObject({ code: 'INTERNAL_ERROR' });
     });
   });
 });

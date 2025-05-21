@@ -138,4 +138,49 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   return groupController.deleteGroup(req, res);
 });
 
+router.patch('/:groupId/members/:userId', authMiddleware, async (req, res) => {
+  /* #swagger.tags = ['Groups']
+     #swagger.description = 'Modifica el rol de un miembro existente dentro del grupo. Solo los administradores pueden realizar esta acción.'
+     #swagger.security = [{ "BearerAuth": [] }]
+     #swagger.parameters['groupId'] = {
+        in: 'path',
+        description: 'ID del grupo',
+        required: true,
+        type: 'string'
+     }
+     #swagger.parameters['userId'] = {
+        in: 'path',
+        description: 'ID del usuario cuyo rol se desea modificar',
+        required: true,
+        type: 'string'
+     }
+     #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                role: { type: "string", enum: ["admin", "member"], example: "admin" }
+              },
+              required: ["role"]
+            }
+          }
+        }
+      }
+     #swagger.responses[200] = {
+        description: 'Rol actualizado correctamente',
+        schema: {
+          message: { type: "string", example: "Rol actualizado correctamente" },
+          group: { $ref: "#/definitions/Group" }
+        }
+     }
+     #swagger.responses[400] = { description: 'Rol inválido' }
+     #swagger.responses[403] = { description: 'No autorizado para modificar el rol' }
+     #swagger.responses[404] = { description: 'Grupo o usuario no encontrado' }
+     #swagger.responses[500] = { description: 'Error interno del servidor' }
+  */
+  return groupController.updateMemberRole(req, res);
+});
+
 export default router;

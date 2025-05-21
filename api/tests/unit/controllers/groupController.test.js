@@ -2,11 +2,12 @@ import sinon from 'sinon';
 import groupController from '../../../controllers/groupController.js';
 import groupService from '../../../services/groupService.js';
 import userService from '../../../services/userService.js';
+import { afterAll, jest } from '@jest/globals'
 
 describe('groupController', () => {
   let req, res;
-  
-  
+
+
   beforeEach(() => {
     req = {
       user: { id: 'user123' },
@@ -151,4 +152,180 @@ describe('groupController', () => {
       sinon.assert.calledWith(res.json, { message: 'Error al eliminar el grupo.' });
     });
   });
+
+  describe('updateMemberRole', () => {
+    const mockReq = {
+      params: { groupId: 'group123', userId: 'user456' },
+      body: { role: 'admin' },
+      user: { _id: 'requester789' }
+    };
+
+    let res;
+
+    beforeEach(() => {
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn()
+      };
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+      jest.restoreAllMocks();
+    });
+
+    it('responde 200 si el rol se actualiza correctamente', async () => {
+
+      jest.spyOn(groupService, 'updateMemberRole').mockResolvedValue({
+        message: 'Rol actualizado correctamente',
+        group: { _id: 'group123', name: 'Test Group' }
+      });
+
+      await groupController.updateMemberRole(mockReq, res);
+
+      expect(groupService.updateMemberRole).toHaveBeenCalledWith({
+        groupId: 'group123',
+        userId: 'user456',
+        role: 'admin',
+        requesterId: 'requester789'
+      });
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        message: 'Rol actualizado correctamente',
+        group: { _id: 'group123', name: 'Test Group' }
+      });
+    });
+
+    it('responde 400 si el rol es inválido', async () => {
+      jest.spyOn(groupService, 'updateMemberRole').mockRejectedValue({
+        code: 'BAD_REQUEST',
+        message: 'Rol inválido'
+      });
+
+      await groupController.updateMemberRole(mockReq, res);
+
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.json).toHaveBeenCalledWith({ message: 'Rol inválido' });
+    });
+
+    it('responde 403 si el requester no tiene permisos', async () => {
+      jest.spyOn(groupService, 'updateMemberRole').mockRejectedValue({
+        code: 'FORBIDDEN',
+        message: 'No autorizado'
+      });
+
+      await groupController.updateMemberRole(mockReq, res);
+
+      expect(res.status).toHaveBeenCalledWith(403);
+      expect(res.json).toHaveBeenCalledWith({ message: 'No autorizado' });
+    });
+
+    it('responde 404 si grupo o usuario no existen', async () => {
+      jest.spyOn(groupService, 'updateMemberRole').mockRejectedValue({
+        code: 'NOT_FOUND',
+        message: 'Grupo no encontrado'
+      });
+
+      await groupController.updateMemberRole(mockReq, res);
+
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({ message: 'Grupo no encontrado' });
+    });
+
+    it('responde 500 si ocurre un error inesperado', async () => {
+      jest.spyOn(groupService, 'updateMemberRole').mockRejectedValue(new Error('Falla total'));
+
+      await groupController.updateMemberRole(mockReq, res);
+
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ message: 'Error interno del servidor' });
+    });
+  });
+
+  describe('addMember', () => {
+    const mockReq = {
+      params: { groupId: 'group123' },
+      body: { userId: 'user456', role: 'member' },
+      user: { _id: 'requester789' }
+    };
+  
+    
+    beforeEach(() => {
+      res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn()
+      };
+    });
+  
+    afterEach(() => jest.clearAllMocks());
+  
+    it('responde 200 si se agrega el miembro correctamente', async () => {
+      jest.spyOn(groupService, 'addMember').mockResolvedValue({
+        message: 'Miembro agregado exitosamente',
+        group: { _id: 'group123', name: 'Test Group' }
+      });
+  
+      await groupController.addMember(mockReq, res);
+  
+      expect(groupService.addMember).toHaveBeenCalledWith({
+        groupId: 'group123',
+        requesterId: 'requester789',
+        userId: 'user456',
+        role: 'member'
+      });
+  
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        message: 'Miembro agregado exitosamente',
+        group: { _id: 'group123', name: 'Test Group' }
+      });
+    });
+  
+    it('responde 403 si no tiene permisos', async () => {
+      jest.spyOn(groupService, 'addMember').mockRejectedValue({
+        code: 'FORBIDDEN',
+        message: 'No autorizado'
+      });
+  
+      await groupController.addMember(mockReq, res);
+  
+      expect(res.status).toHaveBeenCalledWith(403);
+      expect(res.json).toHaveBeenCalledWith({ message: 'No autorizado' });
+    });
+  
+    it('responde 404 si el grupo o usuario no existe', async () => {
+      jest.spyOn(groupService, 'addMember').mockRejectedValue({
+        code: 'NOT_FOUND',
+        message: 'Grupo o usuario no encontrado'
+      });
+  
+      await groupController.addMember(mockReq, res);
+  
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({ message: 'Grupo o usuario no encontrado' });
+    });
+  
+    it('responde 409 si el usuario ya es miembro', async () => {
+      jest.spyOn(groupService, 'addMember').mockRejectedValue({
+        code: 'CONFLICT',
+        message: 'El usuario ya es miembro del grupo'
+      });
+  
+      await groupController.addMember(mockReq, res);
+  
+      expect(res.status).toHaveBeenCalledWith(409);
+      expect(res.json).toHaveBeenCalledWith({ message: 'El usuario ya es miembro del grupo' });
+    });
+  
+    it('responde 500 en error inesperado', async () => {
+      jest.spyOn(groupService, 'addMember').mockRejectedValue(new Error('Falla inesperada'));
+  
+      await groupController.addMember(mockReq, res);
+  
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ message: 'Error interno del servidor' });
+    });
+  });
+  
 });

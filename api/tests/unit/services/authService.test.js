@@ -5,9 +5,8 @@ import authAgent from '../../../serviceAgents/authAgent.js';
 import userDAO from '../../../dataAccess/userDAO.js';
 import authDAO from '../../../dataAccess/authDAO.js';
 import jest from 'jest-mock';
-describe('authService', () => {
-  
 
+describe('authService', () => {
   afterEach(() => {
     sinon.restore();
   });
