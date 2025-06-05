@@ -1,10 +1,12 @@
 import sinon from 'sinon';
 import itemDAO from '../../../dataAccess/itemDAO.js';
+import groupDAO from '../../../dataAccess/groupDAO.js';
 import itemService from '../../../services/itemService.js';
+import mongoose from 'mongoose';
 
 describe('itemService', () => {
-  
-  
+
+
   afterEach(() => {
     sinon.restore();
   });
@@ -21,9 +23,21 @@ describe('itemService', () => {
 
   describe('addItem', () => {
     it('debe agregar un ítem correctamente', async () => {
-      const data = { name: 'Pan', groupId: 'g1' };
-      const newItem = { id: 'i1', ...data };
+
+      const mockGroupId = new mongoose.Types.ObjectId().toString();
+      const mockAddedByUserId = new mongoose.Types.ObjectId().toString();
+
+      const data = { name: 'Pan', groupId: mockGroupId, userId: mockAddedByUserId };
+      const newItem = { id: mockAddedByUserId, ...data };
+      const newGroup = {
+        id: mockGroupId, members: [
+          { user: mockAddedByUserId, role: 'admin' }
+        ], ...data
+      };
+
       sinon.stub(itemDAO, 'create').resolves(newItem);
+      sinon.stub(groupDAO, 'findById').resolves(newGroup);
+
 
       const result = await itemService.addItem(data);
       expect(result).toEqual(newItem);

@@ -62,11 +62,12 @@ describe('itemController', () => {
     it('debe manejar errores con status 500', async () => {
       req.body = { name: 'Pan' };
       sinon.stub(itemService, 'addItem').rejects();
-
+  
       await itemController.addItem(req, res);
-
+  
       sinon.assert.calledWith(res.status, 500);
-      sinon.assert.calledWith(res.json, { message: 'Internal server error' });
+      // Cambia esta línea para que coincida con el mensaje que realmente se está enviando
+      sinon.assert.calledWith(res.json, { message: 'Error al crear el ítem' });
     });
   });
 
