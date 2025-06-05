@@ -71,6 +71,38 @@ router.put('/:itemId', async (req, res) => {
   return itemController.updateItem(req, res);
 });
 
+router.patch('/:itemId/purchase', async (req, res) => {
+  /* #swagger.tags = ['Items']
+     #swagger.description = 'Marca un ítem como comprado'
+     #swagger.security = [{ "BearerAuth": [] }]
+     #swagger.parameters['itemId'] = {
+        in: 'path',
+        description: 'ID del ítem',
+        required: true,
+        type: 'string'
+     }
+     #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                groupId: { type: "string", example: "665abcabcabcabcabcabcabc" }
+              },
+              required: ["groupId"]
+            }
+          }
+        }
+      }
+     #swagger.responses[200] = {
+        description: 'Ítem marcado como comprado',
+        schema: { $ref: '#/definitions/Item' }
+     }
+  */
+  return itemController.markItemAsPurchased(req, res);
+});
+
 router.delete('/:itemId', async (req, res) => {
   /* #swagger.tags = ['Items']
      #swagger.description = 'Elimina un ítem por ID'
