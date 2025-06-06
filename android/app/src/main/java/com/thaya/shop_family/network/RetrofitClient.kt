@@ -1,6 +1,7 @@
 package com.thaya.shop_family.network
 
 import com.thaya.shop_family.session.UserSession
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -8,12 +9,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "http://10.0.2.2:5001/api/"
 
-    private val client = OkHttpClient.Builder().addInterceptor { chain ->
-        val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer ${UserSession.jwtToken}")
-            .build()
-        chain.proceed(request)
-    }.build()
+    private val authInterceptor = Interceptor { chain ->
+        val builder = chain.request().newBuilder()
+        UserSession.jwtToken?.let { token ->
+            builder.addHeader("Authorization", "Bearer $token")
+        }
+        chain.proceed(builder.build())
+    }
+
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
+        .build()
 
     val authService: AuthService by lazy {
         Retrofit.Builder()

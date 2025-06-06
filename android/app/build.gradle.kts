@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
     id("com.google.gms.google-services") version "4.4.2" apply true
 
 }
@@ -76,5 +77,16 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.runtime)
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
 }
