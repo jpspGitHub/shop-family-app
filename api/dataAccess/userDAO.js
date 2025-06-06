@@ -5,12 +5,12 @@ const findByEmail = async (email) => {
   return await User.findOne({ email });
 };
 
-const createFromGoogle = async ({ email, name, picture, sub, locale }) => {
+const createFromGoogle = async ({ email, name, avatar, googleId, locale }) => {
   const user = new User({
     email,
     name,
-    avatar: picture,
-    googleId: sub,
+    avatar,
+    googleId,
     locale: locale || 'en',
     timezone: 'UTC',       // podrías cambiar esto con la hora del cliente si se conoce
     lastLogin: new Date(),

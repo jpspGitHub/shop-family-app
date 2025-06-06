@@ -1,4 +1,3 @@
-import e from 'express';
 import groupService from '../services/groupService.js';
 import userService from '../services/userService.js';
 

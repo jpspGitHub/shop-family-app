@@ -24,8 +24,8 @@ describe('userDAO', () => {
       const googleUser = {
         name: 'Pablo',
         email: 'pablo@example.com',
-        picture: 'url-imagen',
-        uid: 'google-uid-123'
+        avatar: 'url-imagen',
+        googleId: 'google-uid-123'
       };
       const mockUser = { _id: 'u1', ...googleUser };
       sinon.stub(User.prototype, 'save').resolves(mockUser);
