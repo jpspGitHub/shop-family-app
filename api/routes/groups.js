@@ -115,7 +115,8 @@ router.put('/:id', authMiddleware, async (req, res) => {
         }
       }
      #swagger.responses[200] = {
-        description: 'Grupo actualizado correctamente'
+        description: 'Grupo actualizado correctamente',
+        schema: { $ref: '#/definitions/Group' }
      }
   */
   return groupController.updateGroup(req, res);
@@ -132,7 +133,13 @@ router.delete('/:id', authMiddleware, async (req, res) => {
         type: 'string'
      }
      #swagger.responses[200] = {
-        description: 'Grupo eliminado correctamente'
+        description: 'Grupo eliminado correctamente',
+        schema: {
+          type: 'object',
+          properties: {
+            message: { type: 'string', example: 'Grupo eliminado correctamente.' }
+          }
+        }
      }
   */
   return groupController.deleteGroup(req, res);
