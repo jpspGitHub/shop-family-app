@@ -49,7 +49,50 @@
           "200": {
             "description": "Usuario autenticado correctamente",
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "token": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "jwt-token"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Autenticación exitosa"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
             }
           },
           "400": {
@@ -95,7 +138,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Sesión cerrada correctamente"
+            "description": "Sesión cerrada correctamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Logout registrado correctamente."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Token inválido o expirado"
@@ -121,7 +194,7 @@
           "201": {
             "description": "Grupo creado correctamente",
             "schema": {
-              "$ref": "#/definitions/Group"
+              "$ref": "#/components/schemas/Group"
             }
           },
           "400": {
@@ -175,7 +248,7 @@
                   "example": "array"
                 },
                 "items": {
-                  "$ref": "#/definitions/Group"
+                  "$ref": "#/components/schemas/Group"
                 }
               },
               "xml": {
@@ -229,7 +302,7 @@
                   }
                 },
                 "group": {
-                  "$ref": "#/definitions/Group"
+                  "$ref": "#/components/schemas/Group"
                 }
               },
               "xml": {
@@ -301,7 +374,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Grupo actualizado correctamente"
+            "description": "Grupo actualizado correctamente",
+            "schema": {
+              "$ref": "#/components/schemas/Group"
+            }
           },
           "404": {
             "description": "Not Found"
@@ -348,7 +424,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Grupo eliminado correctamente"
+            "description": "Grupo eliminado correctamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Grupo eliminado correctamente."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
             "description": "Not Found"
@@ -406,7 +512,7 @@
                   }
                 },
                 "group": {
-                  "$ref": "#/definitions/Group"
+                  "$ref": "#/components/schemas/Group"
                 }
               },
               "xml": {
@@ -483,7 +589,7 @@
                   "example": "array"
                 },
                 "items": {
-                  "$ref": "#/definitions/Item"
+                  "$ref": "#/components/schemas/Item"
                 }
               },
               "xml": {
@@ -512,11 +618,53 @@
           "201": {
             "description": "Ítem creado",
             "schema": {
-              "$ref": "#/definitions/Item"
+              "$ref": "#/components/schemas/Item"
+            }
+          },
+          "403": {
+            "description": "El usuario no pertenece al grupo",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "El usuario no pertenece a este grupo"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Grupo no encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Grupo no encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
             }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Error interno del servidor",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Error al crear el ítem"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         },
         "security": [
@@ -534,6 +682,10 @@
                   "name": {
                     "type": "string",
                     "example": "Pan"
+                  },
+                  "quantity": {
+                    "type": "string",
+                    "example": "2 unidades"
                   },
                   "groupId": {
                     "type": "string",
@@ -567,7 +719,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Ítem actualizado correctamente"
+            "description": "Ítem actualizado correctamente",
+            "schema": {
+              "$ref": "#/components/schemas/Item"
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -577,7 +732,27 @@
           {
             "BearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Pan"
+                  },
+                  "quantity": {
+                    "type": "string",
+                    "example": "2"
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "delete": {
         "tags": [
@@ -608,6 +783,67 @@
         ]
       }
     },
+    "/api/items/{itemId}/purchase": {
+      "patch": {
+        "tags": [
+          "Items"
+        ],
+        "description": "Marca un ítem como comprado",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID del ítem"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ítem marcado como comprado",
+            "schema": {
+              "$ref": "#/components/schemas/Item"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "groupId": {
+                    "type": "string",
+                    "example": "665abcabcabcabcabcabcabc"
+                  }
+                },
+                "required": [
+                  "groupId"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/me": {
       "get": {
         "tags": [
@@ -618,7 +854,7 @@
           "200": {
             "description": "Perfil del usuario",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/components/schemas/User"
             }
           },
           "404": {

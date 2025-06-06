@@ -24,7 +24,7 @@ router.post('/', authMiddleware, async (req, res) => {
       }
      #swagger.responses[201] = {
         description: 'Grupo creado correctamente',
-        schema: { $ref: '#/definitions/Group' }
+        schema: { $ref: '#/components/schemas/Group' }
      }
   */
   return groupController.createGroup(req, res);
@@ -59,7 +59,7 @@ router.post('/:groupId/add-member', authMiddleware, async (req, res) => {
         description: 'Usuario agregado exitosamente al grupo',
         schema: {
           message: { type: "string", example: "Miembro agregado exitosamente" },
-          group: { $ref: "#/definitions/Group" }
+          group: { $ref: "#/components/schemas/Group" }
         }
      }
      #swagger.responses[403] = {
@@ -84,7 +84,7 @@ router.get('/', authMiddleware, async (req, res) => {
         description: 'Lista de grupos',
         schema: {
           type: 'array',
-          items: { $ref: '#/definitions/Group' }
+          items: { $ref: '#/components/schemas/Group' }
         }
      }
   */
@@ -116,7 +116,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
       }
      #swagger.responses[200] = {
         description: 'Grupo actualizado correctamente',
-        schema: { $ref: '#/definitions/Group' }
+        schema: { $ref: '#/components/schemas/Group' }
      }
   */
   return groupController.updateGroup(req, res);
@@ -179,7 +179,7 @@ router.patch('/:groupId/members/:userId', authMiddleware, async (req, res) => {
         description: 'Rol actualizado correctamente',
         schema: {
           message: { type: "string", example: "Rol actualizado correctamente" },
-          group: { $ref: "#/definitions/Group" }
+          group: { $ref: "#/components/schemas/Group" }
         }
      }
      #swagger.responses[400] = { description: 'Rol inválido' }

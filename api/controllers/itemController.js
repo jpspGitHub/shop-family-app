@@ -11,12 +11,20 @@ async function getItemsByGroup(req, res) {
 }
 
 async function addItem(req, res) {
+  const { name, quantity, groupId } = req.body;
+  const userId = req.user._id;
+
   try {
-    const item = await itemService.addItem({ ...req.body, addedBy: req.user.id });
-    res.status(201).json(item);
+    const item = await itemService.addItem({ name, quantity, groupId, userId });
+    return res.status(201).json(item);
   } catch (err) {
-    console.error('Error adding item:', err);
-    res.status(500).json({ message: 'Internal server error' });
+    if (err.code === 'NOT_FOUND') {
+      return res.status(404).json({ message: err.message });
+    }
+    if (err.code === 'FORBIDDEN') {
+      return res.status(403).json({ message: err.message });
+    }
+    return res.status(500).json({ message: 'Error al crear el ítem' });
   }
 }
 

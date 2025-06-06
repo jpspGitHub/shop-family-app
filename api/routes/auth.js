@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
         schema: {
           type: 'object',
           properties: {
-            user: { $ref: '#/definitions/User' },
+            user: { $ref: '#/components/schemas/User' },
             token: { type: 'string', example: 'jwt-token' },
             message: { type: 'string', example: 'Autenticación exitosa' }
           }

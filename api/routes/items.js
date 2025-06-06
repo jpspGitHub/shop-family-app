@@ -20,40 +20,52 @@ router.get('/:groupId', async (req, res) => {
         description: 'Ítems del grupo',
         schema: {
           type: 'array',
-          items: { $ref: '#/definitions/Item' }
+          items: { $ref: '#/components/schemas/Item' }
         }
      }
   */
   return itemController.getItemsByGroup(req, res);
 });
 
-router.post('/', async (req, res) => {
-  /* #swagger.tags = ['Items']
-     #swagger.description = 'Crea un nuevo ítem en un grupo'
-     #swagger.security = [{ "BearerAuth": [] }]
-     #swagger.requestBody = {
-        required: true,
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                name: { type: "string", example: "Pan" },
-                quantity: { type: "string", example: "2" },
-                groupId: { type: "string", example: "665abcabcabcabcabcabcabc" }
-              },
-              required: ["name", "groupId"]
-            }
-          }
-        }
+router.post('/', authMiddleware, async (req, res) => {
+   /* #swagger.tags = ['Items']
+      #swagger.description = 'Crea un nuevo ítem en un grupo'
+      #swagger.security = [{ "BearerAuth": [] }]
+      #swagger.requestBody = {
+         required: true,
+         content: {
+           "application/json": {
+             schema: {
+               type: "object",
+               properties: {
+                 name: { type: "string", example: "Pan" },
+                 quantity: { type: "string", example: "2 unidades" },
+                 groupId: { type: "string", example: "665abcabcabcabcabcabcabc" }
+               },
+               required: ["name", "groupId"]
+             }
+           }
+         }
+       }
+      #swagger.responses[201] = {
+         description: 'Ítem creado',
+         schema: { $ref: '#/components/schemas/Item' }
       }
-     #swagger.responses[201] = {
-        description: 'Ítem creado',
-        schema: { $ref: '#/definitions/Item' }
-     }
-  */
-  return itemController.addItem(req, res);
-});
+      #swagger.responses[403] = {
+         description: 'El usuario no pertenece al grupo',
+         schema: { message: "El usuario no pertenece a este grupo" }
+      }
+      #swagger.responses[404] = {
+         description: 'Grupo no encontrado',
+         schema: { message: "Grupo no encontrado" }
+      }
+      #swagger.responses[500] = {
+         description: 'Error interno del servidor',
+         schema: { message: "Error al crear el ítem" }
+      }
+   */
+   return itemController.addItem(req, res);
+ });
 
 router.put('/:itemId', async (req, res) => {
   /* #swagger.tags = ['Items']
@@ -81,7 +93,7 @@ router.put('/:itemId', async (req, res) => {
       }
      #swagger.responses[200] = {
         description: 'Ítem actualizado correctamente',
-        schema: { $ref: '#/definitions/Item' }
+        schema: { $ref: '#/components/schemas/Item' }
      }
   */
   return itemController.updateItem(req, res);
@@ -113,7 +125,7 @@ router.patch('/:itemId/purchase', async (req, res) => {
       }
      #swagger.responses[200] = {
         description: 'Ítem marcado como comprado',
-        schema: { $ref: '#/definitions/Item' }
+        schema: { $ref: '#/components/schemas/Item' }
      }
   */
   return itemController.markItemAsPurchased(req, res);
