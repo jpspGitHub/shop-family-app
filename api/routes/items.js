@@ -39,6 +39,7 @@ router.post('/', async (req, res) => {
               type: "object",
               properties: {
                 name: { type: "string", example: "Pan" },
+                quantity: { type: "string", example: "2" },
                 groupId: { type: "string", example: "665abcabcabcabcabcabcabc" }
               },
               required: ["name", "groupId"]
@@ -64,8 +65,23 @@ router.put('/:itemId', async (req, res) => {
         required: true,
         type: 'string'
      }
+     #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                name: { type: "string", example: "Pan" },
+                quantity: { type: "string", example: "2" }
+              }
+            }
+          }
+        }
+      }
      #swagger.responses[200] = {
-        description: 'Ítem actualizado correctamente'
+        description: 'Ítem actualizado correctamente',
+        schema: { $ref: '#/definitions/Item' }
      }
   */
   return itemController.updateItem(req, res);

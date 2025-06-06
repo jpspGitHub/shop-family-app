@@ -23,7 +23,14 @@ router.post('/login', async (req, res) => {
       }
      #swagger.responses[200] = {
         description: 'Usuario autenticado correctamente',
-        schema: { $ref: '#/definitions/User' }
+        schema: {
+          type: 'object',
+          properties: {
+            user: { $ref: '#/definitions/User' },
+            token: { type: 'string', example: 'jwt-token' },
+            message: { type: 'string', example: 'Autenticación exitosa' }
+          }
+        }
      }
      #swagger.responses[401] = {
         description: 'Token inválido o expirado'
@@ -37,7 +44,13 @@ router.post('/logout', authMiddleware, async (req, res) => {
      #swagger.description = 'Logout del sistema'
      #swagger.security = [{ "BearerAuth": [] }]
      #swagger.responses[200] = {
-        description: 'Sesión cerrada correctamente'
+        description: 'Sesión cerrada correctamente',
+        schema: {
+          type: 'object',
+          properties: {
+            message: { type: 'string', example: 'Logout registrado correctamente.' }
+          }
+        }
      }
      #swagger.responses[401] = {
         description: 'Token inválido o expirado'
