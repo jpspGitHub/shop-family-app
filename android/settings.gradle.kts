@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "shop-family"
 include(":app")
+include(":data")
+include(":domain")
  

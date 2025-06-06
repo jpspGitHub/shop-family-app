@@ -29,6 +29,7 @@ app/
 │   └── menu/            # Archivos para la barra inferior
 └── google-services.json
 ```
+Además se incluyen los módulos `data` y `domain` para separar la capa de datos y la lógica de negocio.
 
 ---
 
@@ -84,9 +85,7 @@ FirebaseAuth.getInstance().currentUser?.getIdToken(true)
 
 ## 📝 Tareas pendientes
 
-- Persistencia de sesión (`SharedPreferences`)
-- Navegación entre pantallas con Jetpack Navigation
-- UI para grupos e ítems
+- Mejorar interfaz para grupos e ítems
 
 ---
 
