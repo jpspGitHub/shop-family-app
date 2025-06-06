@@ -1,6 +1,6 @@
 # 📱 Shop Family App - iOS Frontend
 
-Esta carpeta contiene una implementación inicial de la aplicación iOS escrita en **Swift**. Tiene como objetivo replicar la funcionalidad básica de la app Android: autenticación con Google, manejo de sesión, obtención del perfil del usuario y navegación sencilla.
+Esta carpeta contiene una implementación inicial de la aplicación iOS escrita en **Swift** usando **SwiftUI**. Tiene como objetivo replicar la funcionalidad básica de la app Android: autenticación con Google, manejo de sesión, obtención del perfil del usuario y navegación sencilla.
 
 ## 🚀 Requisitos
 - Xcode 15 o superior
@@ -14,11 +14,11 @@ ShopFamilyApp/
 ├── Models/           # Modelos de datos (User, Group, Item)
 ├── Network/          # Lógica de red y servicios
 ├── Session/          # Gestión de tokens con UserDefaults
-└── Views/            # ViewControllers principales
+└── Views/            # Vistas SwiftUI principales
 ```
 
 ## 🔧 Configuración inicial
-1. Abrir la carpeta `ios` en Xcode y crear un nuevo proyecto **App** llamado `ShopFamilyApp`.
+1. Abrir la carpeta `ios` en Xcode y crear un nuevo proyecto **App** (interfaz **SwiftUI**) llamado `ShopFamilyApp`.
 2. Copiar las carpetas `Models`, `Network`, `Session` y `Views` dentro del proyecto.
 3. Agregar `GoogleService-Info.plist` (descargado de Firebase) al proyecto.
 4. Instalar Firebase mediante Swift Package Manager (`https://github.com/firebase/firebase-ios-sdk`).
