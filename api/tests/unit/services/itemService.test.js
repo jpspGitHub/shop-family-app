@@ -64,4 +64,51 @@ describe('itemService', () => {
       expect(result).toEqual(removedItem);
     });
   });
+
+  describe('markItemAsPurchased', () => {
+    const groupId = 'g1';
+    const userId = 'u1';
+
+    it('debe marcar un ítem como comprado correctamente', async () => {
+      const item = { id: 'i1', groupId };
+      const group = { members: [{ user: userId }] };
+      sinon.stub(itemDAO, 'findById').resolves(item);
+      sinon.stub(groupDAO, 'findById').resolves(group);
+      sinon.stub(itemDAO, 'markAsPurchased').resolves({ id: 'i1', isPurchased: true });
+
+      const result = await itemService.markItemAsPurchased('i1', groupId, userId);
+      expect(result).toEqual({ id: 'i1', isPurchased: true });
+    });
+
+    it('lanza error si el ítem no existe', async () => {
+      sinon.stub(itemDAO, 'findById').resolves(null);
+
+      await expect(itemService.markItemAsPurchased('i1', groupId, userId))
+        .rejects.toMatchObject({ code: 'NOT_FOUND' });
+    });
+
+    it('lanza error si el grupo no existe', async () => {
+      sinon.stub(itemDAO, 'findById').resolves({ id: 'i1', groupId });
+      sinon.stub(groupDAO, 'findById').resolves(null);
+
+      await expect(itemService.markItemAsPurchased('i1', groupId, userId))
+        .rejects.toMatchObject({ code: 'NOT_FOUND' });
+    });
+
+    it('lanza error si el ítem no pertenece al grupo', async () => {
+      sinon.stub(itemDAO, 'findById').resolves({ id: 'i1', groupId: 'other' });
+      sinon.stub(groupDAO, 'findById').resolves({ members: [] });
+
+      await expect(itemService.markItemAsPurchased('i1', groupId, userId))
+        .rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    });
+
+    it('lanza error si el usuario no pertenece al grupo', async () => {
+      sinon.stub(itemDAO, 'findById').resolves({ id: 'i1', groupId });
+      sinon.stub(groupDAO, 'findById').resolves({ members: [] });
+
+      await expect(itemService.markItemAsPurchased('i1', groupId, userId))
+        .rejects.toMatchObject({ code: 'FORBIDDEN' });
+    });
+  });
 });

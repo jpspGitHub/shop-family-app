@@ -11,8 +11,7 @@ async function getItemsByGroup(req, res) {
 }
 
 async function addItem(req, res) {
-  const { groupId } = req.params;
-  const { name, quantity } = req.body;
+  const { name, quantity, groupId } = req.body;
   const userId = req.user._id;
 
   try {
@@ -49,9 +48,27 @@ async function deleteItem(req, res) {
   }
 }
 
+async function markItemAsPurchased(req, res) {
+  try {
+    const updatedItem = await itemService.markItemAsPurchased(
+      req.params.itemId,
+      req.body.groupId,
+      req.user.id
+    );
+    res.status(200).json(updatedItem);
+  } catch (err) {
+    console.error('Error marking item as purchased:', err);
+    if (err.code === 'NOT_FOUND') return res.status(404).json({ message: err.message });
+    if (err.code === 'BAD_REQUEST') return res.status(400).json({ message: err.message });
+    if (err.code === 'FORBIDDEN') return res.status(403).json({ message: err.message });
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 export default {
   getItemsByGroup,
   addItem,
   updateItem,
-  deleteItem
+  deleteItem,
+  markItemAsPurchased
 };

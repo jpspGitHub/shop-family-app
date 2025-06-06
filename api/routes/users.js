@@ -10,7 +10,7 @@ router.get('/me', authMiddleware, async (req, res) => {
      #swagger.security = [{ "BearerAuth": [] }]
      #swagger.responses[200] = {
         description: 'Perfil del usuario',
-        schema: { $ref: '#/definitions/User' }
+        schema: { $ref: '#/components/schemas/User' }
      }
      #swagger.responses[404] = {
         description: 'Usuario no encontrado'

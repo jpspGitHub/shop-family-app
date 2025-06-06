@@ -75,4 +75,25 @@ describe('itemDAO', () => {
       expect(result).toEqual(deletedItem);
     });
   });
+
+  describe('markAsPurchased', () => {
+    it('debe marcar un ítem como comprado', async () => {
+      const updatedItem = { id: 'i1', isPurchased: true };
+      const stub = sinon.stub(Item, 'findByIdAndUpdate').resolves(updatedItem);
+
+      const result = await itemDAO.markAsPurchased('i1', 'u1');
+      expect(result).toEqual(updatedItem);
+      sinon.assert.calledWithMatch(stub, 'i1', sinon.match({ isPurchased: true, purchasedBy: 'u1' }));
+    });
+  });
+
+  describe('findById', () => {
+    it('debe encontrar un ítem por ID', async () => {
+      const item = { id: 'i1' };
+      sinon.stub(Item, 'findById').resolves(item);
+
+      const result = await itemDAO.findById('i1');
+      expect(result).toEqual(item);
+    });
+  });
 });

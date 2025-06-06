@@ -20,7 +20,7 @@ router.get('/:groupId', async (req, res) => {
         description: 'Ítems del grupo',
         schema: {
           type: 'array',
-          items: { $ref: '#/definitions/Item' }
+          items: { $ref: '#/components/schemas/Item' }
         }
      }
   */
@@ -49,7 +49,7 @@ router.post('/', authMiddleware, async (req, res) => {
        }
       #swagger.responses[201] = {
          description: 'Ítem creado',
-         schema: { $ref: '#/definitions/Item' }
+         schema: { $ref: '#/components/schemas/Item' }
       }
       #swagger.responses[403] = {
          description: 'El usuario no pertenece al grupo',
@@ -77,11 +77,58 @@ router.put('/:itemId', async (req, res) => {
         required: true,
         type: 'string'
      }
+     #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                name: { type: "string", example: "Pan" },
+                quantity: { type: "string", example: "2" }
+              }
+            }
+          }
+        }
+      }
      #swagger.responses[200] = {
-        description: 'Ítem actualizado correctamente'
+        description: 'Ítem actualizado correctamente',
+        schema: { $ref: '#/components/schemas/Item' }
      }
   */
   return itemController.updateItem(req, res);
+});
+
+router.patch('/:itemId/purchase', async (req, res) => {
+  /* #swagger.tags = ['Items']
+     #swagger.description = 'Marca un ítem como comprado'
+     #swagger.security = [{ "BearerAuth": [] }]
+     #swagger.parameters['itemId'] = {
+        in: 'path',
+        description: 'ID del ítem',
+        required: true,
+        type: 'string'
+     }
+     #swagger.requestBody = {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                groupId: { type: "string", example: "665abcabcabcabcabcabcabc" }
+              },
+              required: ["groupId"]
+            }
+          }
+        }
+      }
+     #swagger.responses[200] = {
+        description: 'Ítem marcado como comprado',
+        schema: { $ref: '#/components/schemas/Item' }
+     }
+  */
+  return itemController.markItemAsPurchased(req, res);
 });
 
 router.delete('/:itemId', async (req, res) => {

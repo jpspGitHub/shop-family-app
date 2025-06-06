@@ -116,4 +116,52 @@ describe('itemController', () => {
       sinon.assert.calledWith(res.json, { message: 'Internal server error' });
     });
   });
+
+  describe('markItemAsPurchased', () => {
+    beforeEach(() => {
+      req.params.itemId = 'i1';
+      req.body.groupId = 'g1';
+    });
+
+    it('debe marcar un ítem como comprado y devolverlo', async () => {
+      const updatedItem = { id: 'i1', isPurchased: true };
+      sinon.stub(itemService, 'markItemAsPurchased').resolves(updatedItem);
+
+      await itemController.markItemAsPurchased(req, res);
+
+      sinon.assert.calledWith(itemService.markItemAsPurchased, 'i1', 'g1', 'user123');
+      sinon.assert.calledWith(res.status, 200);
+      sinon.assert.calledWith(res.json, updatedItem);
+    });
+
+    it('debe manejar errores con codigos conocidos', async () => {
+      const error = { code: 'NOT_FOUND', message: 'Ítem no encontrado' };
+      sinon.stub(itemService, 'markItemAsPurchased').rejects(error);
+
+      await itemController.markItemAsPurchased(req, res);
+
+      sinon.assert.calledWith(res.status, 404);
+      sinon.assert.calledWith(res.json, { message: 'Ítem no encontrado' });
+    });
+
+    it('debe manejar error de pertenencia de grupo', async () => {
+      const error = { code: 'BAD_REQUEST', message: 'El ítem no pertenece al grupo' };
+      sinon.stub(itemService, 'markItemAsPurchased').rejects(error);
+
+      await itemController.markItemAsPurchased(req, res);
+
+      sinon.assert.calledWith(res.status, 400);
+      sinon.assert.calledWith(res.json, { message: 'El ítem no pertenece al grupo' });
+    });
+
+    it('debe manejar error de usuario no miembro', async () => {
+      const error = { code: 'FORBIDDEN', message: 'Usuario no pertenece al grupo' };
+      sinon.stub(itemService, 'markItemAsPurchased').rejects(error);
+
+      await itemController.markItemAsPurchased(req, res);
+
+      sinon.assert.calledWith(res.status, 403);
+      sinon.assert.calledWith(res.json, { message: 'Usuario no pertenece al grupo' });
+    });
+  });
 });
