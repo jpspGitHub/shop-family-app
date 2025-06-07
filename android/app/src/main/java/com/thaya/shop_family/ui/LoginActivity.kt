@@ -3,8 +3,10 @@ package com.thaya.shop_family.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -19,6 +21,7 @@ import com.thaya.shop_family.network.RetrofitClient
 import com.thaya.shop_family.network.UserProfile
 import com.thaya.shop_family.session.UserSession
 import com.thaya.shop_family.utils.SessionManager
+import kotlinx.coroutines.launch
 import retrofit2.Call
 
 
@@ -114,10 +117,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun sendTokenToBackend(token: String?, onSuccess: () -> Unit, onFailure: () -> Unit) {
         val request = GoogleTokenRequest(token.orEmpty())
-        val call = RetrofitClient.authService.login(request)
-
-        call.enqueue(object : retrofit2.Callback<UserProfile> {
-            override fun onResponse(call: Call<UserProfile>, response: retrofit2.Response<UserProfile>) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.authService.login(request)
                 if (response.isSuccessful) {
                     val result = response.body()
                     Log.i("BACKEND", "Token backend: ${result?.token}")
@@ -129,13 +131,12 @@ class LoginActivity : AppCompatActivity() {
                     Log.e("BACKEND", "Error en respuesta: ${response.code()}")
                     onFailure();
                 }
-            }
-
-            override fun onFailure(call: Call<UserProfile>, t: Throwable) {
-                Log.e("BACKEND", "Error al conectar", t)
+            } catch (e: Exception) {
+                Log.e("Profile", "Fallo la llamada: ${e.message}")
+                Toast.makeText(this@LoginActivity, "Error de red", Toast.LENGTH_SHORT).show()
                 onFailure();
             }
-        })
+        }
     }
 
     private fun showErrorDialog(message: String) {

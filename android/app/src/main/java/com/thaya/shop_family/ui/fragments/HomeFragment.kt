@@ -68,18 +68,28 @@ class HomeFragment : Fragment() {
 
     private suspend fun loadProfile() {
         try {
-            val profile = RetrofitClient.userService.getUserProfile()
-            binding.userNameTextView.text = profile.name
-            binding.userEmailTextView.text = profile.email
-            val db = AppDatabase.get(requireContext())
-            db.userProfileDao().saveProfile(
-                com.thaya.shop_family.data.UserProfileEntity(
-                    id = profile._id ?: "0",
-                    name = profile.name,
-                    email = profile.email,
-                    avatar = profile.avatar
+            val response = RetrofitClient.userService.getUserProfile()
+            if(response.isSuccessful){
+                val profile = response.body();
+                binding.userNameTextView.text = profile?.name
+                binding.userEmailTextView.text = profile?.email
+                val db = AppDatabase.get(requireContext())
+                db.userProfileDao().saveProfile(
+                    com.thaya.shop_family.data.UserProfileEntity(
+                        id = profile?._id ?: "0",
+                        name = profile?.name.toString(),
+                        email = profile?.email.toString(),
+                        avatar = profile?.avatar
+                    )
                 )
-            )
+            } else {
+                val cached = AppDatabase.get(requireContext()).userProfileDao().getProfile()
+                cached?.let {
+                    binding.userNameTextView.text = it.name
+                    binding.userEmailTextView.text = it.email
+                } ?: Toast.makeText(requireContext(), "Error al obtener perfil", Toast.LENGTH_SHORT).show()
+            }
+
         } catch (e: Exception) {
             Log.e("Profile", "Error", e)
             val cached = AppDatabase.get(requireContext()).userProfileDao().getProfile()
