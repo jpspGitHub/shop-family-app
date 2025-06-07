@@ -19,6 +19,10 @@ import com.thaya.shop_family.session.UserSession
 import com.thaya.shop_family.utils.SessionManager
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -67,22 +71,20 @@ class HomeActivity : AppCompatActivity() {
     private fun logout() {
         val token = sessionManager.fetchAuthToken()
         if (token != null) {
-            RetrofitClient.authService.logout("Bearer $token")
-                .enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            auth.signOut()
-                            sessionManager.clearAuthToken()
-                            navigateToLogin()
-                        } else {
-                            Toast.makeText(this@HomeActivity, "Error al cerrar sesión", Toast.LENGTH_SHORT).show()
-                        }
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitClient.authService.logout("Bearer $token")
+                    if (response.isSuccessful) {
+                        auth.signOut()
+                        sessionManager.clearAuthToken()
+                        navigateToLogin()
+                    } else {
+                        Toast.makeText(this@HomeActivity, "Error al cerrar sesión", Toast.LENGTH_SHORT).show()
                     }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Toast.makeText(this@HomeActivity, "Fallo en la red", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                } catch (e: Exception) {
+                    Toast.makeText(this@HomeActivity, "Fallo en la red", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -93,8 +95,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun fetchUserProfile() {
-        RetrofitClient.userService.getUserProfile().enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.userService.getUserProfile()
                 if (response.isSuccessful) {
                     val userProfile = response.body()
                     userProfile?.let {
@@ -109,13 +112,11 @@ class HomeActivity : AppCompatActivity() {
                     Log.e("Profile", "Error: ${response.errorBody()?.string()}")
                     Toast.makeText(this@HomeActivity, "Error al obtener perfil", Toast.LENGTH_SHORT).show()
                 }
-            }
-
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                Log.e("Profile", "Fallo la llamada: ${t.message}")
+            } catch (e: Exception) {
+                Log.e("Profile", "Fallo la llamada: ${e.message}")
                 Toast.makeText(this@HomeActivity, "Error de red", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
     }
 
 }

@@ -109,18 +109,25 @@ class LoginFragment : Fragment() {
     private suspend fun sendTokenToBackend(token: String?) {
         try {
             val request = GoogleTokenRequest(token.orEmpty())
-            val profile = RetrofitClient.authService.login(request)
-            UserSession.jwtToken = profile.token
-            UserSession.userId = profile.user._id
-            val db = AppDatabase.get(requireContext())
-            db.userProfileDao().saveProfile(
-                UserProfileEntity(
-                    id = profile.user._id ?: "0",
-                    name = profile.user.name,
-                    email = profile.user.email,
-                    avatar = profile.user.avatar
+            val response = RetrofitClient.authService.login(request)
+            if(response.isSuccessful) {
+                val profile = response.body();
+                val user = profile?.user;
+                UserSession.jwtToken = profile?.token
+                UserSession.userId = user?._id
+                val db = AppDatabase.get(requireContext())
+                db.userProfileDao().saveProfile(
+                    UserProfileEntity(
+                        id = user?._id ?: "0",
+                        name = user?.name.toString(),
+                        email = user?.email.toString(),
+                        avatar = user?.avatar
+                    )
                 )
-            )
+            } else {
+                showErrorDialog("Error de autenticación")
+            }
+
         } catch (e: Exception) {
             Log.e("BACKEND", "Error en login", e)
             showErrorDialog("Error de autenticación")

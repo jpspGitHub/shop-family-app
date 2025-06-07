@@ -86,7 +86,7 @@ dependencies {
     implementation(libs.room.ktx)
     kapt(libs.room.runtime)
 
-    implementation(project(":data"))
-    implementation(project(":domain"))
+//    implementation(project(":data"))
+//    implementation(project(":domain"))
 
 }
