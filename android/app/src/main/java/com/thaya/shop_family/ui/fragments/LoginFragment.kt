@@ -64,11 +64,14 @@ class LoginFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         if (sessionManager.fetchAuthToken() != null) {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            if(findNavController().currentDestination?.id != R.id.homeFragment){
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            }
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+            //.requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 

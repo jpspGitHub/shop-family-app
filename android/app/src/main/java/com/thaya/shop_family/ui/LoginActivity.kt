@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.thaya.shop_family.BuildConfig
 import com.thaya.shop_family.R
 import com.thaya.shop_family.databinding.ActivityLoginBinding
 //import com.thaya.shop_family.models.UserProfile
@@ -59,7 +60,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
+            //.requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
             .requestEmail()
             .build()
 

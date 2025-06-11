@@ -19,6 +19,9 @@ android {
 
     namespace = "com.thaya.shop_family"
     compileSdk = 35
+    configurations.all {
+        exclude(group = "com.intellij", module = "annotations")
+    }
 
     defaultConfig {
         applicationId = "com.thaya.shop_family"
@@ -84,6 +87,7 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.room.compiler)
     kapt(libs.room.runtime)
 
 //    implementation(project(":data"))
