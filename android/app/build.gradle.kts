@@ -87,10 +87,5 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    implementation(libs.room.compiler)
-    kapt(libs.room.runtime)
-
-//    implementation(project(":data"))
-//    implementation(project(":domain"))
-
+    kapt(libs.room.compiler)
 }
