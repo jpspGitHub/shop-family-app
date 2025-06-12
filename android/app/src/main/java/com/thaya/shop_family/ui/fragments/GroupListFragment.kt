@@ -47,6 +47,16 @@ class GroupListFragment : Fragment() {
         binding.groupsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.groupsRecyclerView.adapter = adapter
         lifecycleScope.launch { loadGroups() }
+
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    findNavController().navigate(R.id.homeFragment)
+                    true
+                }
+                else -> true
+            }
+        }
     }
 
     private suspend fun loadGroups() {

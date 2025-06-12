@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
+    app:cardElevation="2dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -15,7 +23,7 @@
             android:id="@+id/itemNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/itemQuantityTextView"
             android:layout_width="wrap_content"
@@ -28,4 +36,6 @@
         android:contentDescription="Eliminar"
         android:layout_width="40dp"
         android:layout_height="40dp" />
-</LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

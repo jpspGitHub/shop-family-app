@@ -14,6 +14,7 @@
     <color name="color_success">#81C784</color>
     <color name="color_error">#E57373</color>
     <color name="color_accent">#03A9F4</color>
+    <color name="color_background_login">#E3F2FD</color>
 
     <!-- Default text colors -->
     <color name="black">#FF000000</color>

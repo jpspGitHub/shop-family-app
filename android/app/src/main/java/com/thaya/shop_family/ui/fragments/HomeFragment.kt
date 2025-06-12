@@ -65,6 +65,9 @@ class HomeFragment : Fragment() {
                     findNavController().navigate(R.id.action_homeFragment_to_groupListFragment)
                     true
                 }
+                R.id.nav_home -> {
+                    true
+                }
                 else -> true
             }
         }

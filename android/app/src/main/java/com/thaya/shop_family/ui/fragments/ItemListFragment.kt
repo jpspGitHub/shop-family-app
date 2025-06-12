@@ -51,6 +51,20 @@ class ItemListFragment : Fragment() {
             val bundle = bundleOf("members" to ArrayList(group.members))
             findNavController().navigate(R.id.action_itemListFragment_to_groupUsersFragment, bundle)
         }
+        binding.groupNameTextView.text = group.name
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    findNavController().navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.nav_list -> {
+                    findNavController().navigate(R.id.groupListFragment)
+                    true
+                }
+                else -> true
+            }
+        }
         lifecycleScope.launch { loadItems() }
     }
 
