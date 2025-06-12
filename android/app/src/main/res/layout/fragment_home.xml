@@ -54,6 +54,7 @@
         android:layout_gravity="bottom"
         android:layout_marginTop="24dp"
         app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemIconSize="36dp"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu"/>
 </LinearLayout>

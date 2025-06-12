@@ -46,5 +46,6 @@
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemIconSize="36dp"
         app:labelVisibilityMode="unlabeled"/>
 </LinearLayout>

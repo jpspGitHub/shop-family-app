@@ -7,7 +7,8 @@ import com.thaya.shop_family.databinding.ItemItemBinding
 import com.thaya.shop_family.models.Item
 
 class ItemAdapter(
-    private val onDelete: (Item) -> Unit
+    private val onDelete: (Item) -> Unit,
+    private val onLongPress: (Item) -> Unit
 ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     private var items: List<Item> = emptyList()
@@ -25,6 +26,7 @@ class ItemAdapter(
         val item = items[position]
         holder.binding.itemNameTextView.text = item.name
         holder.binding.itemQuantityTextView.text = item.quantity
+        holder.binding.root.setOnLongClickListener { onLongPress(item); true }
         holder.binding.deleteItemButton.setOnClickListener { onDelete(item) }
     }
 
@@ -32,4 +34,6 @@ class ItemAdapter(
         items = list
         notifyDataSetChanged()
     }
+
+    fun getItem(position: Int): Item = items[position]
 }

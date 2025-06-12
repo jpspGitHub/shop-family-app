@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.thaya.shop_family.R
 import com.thaya.shop_family.databinding.FragmentItemListBinding
 import com.thaya.shop_family.models.Group
@@ -40,9 +42,13 @@ class ItemListFragment : Fragment() {
         group = requireArguments().getSerializable("group") as Group
         //group = requireArguments().getSerializable("group", Class::class.java) as Group;
 
-        adapter = ItemAdapter { Toast.makeText(requireContext(), "Eliminar producto", Toast.LENGTH_SHORT).show() }
+        adapter = ItemAdapter(
+            onDelete = { Toast.makeText(requireContext(), "Eliminar producto", Toast.LENGTH_SHORT).show() },
+            onLongPress = { showItemOptions(it) }
+        )
         binding.itemsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.itemsRecyclerView.adapter = adapter
+        attachSwipeActions()
         binding.addItemFab.setOnClickListener {
             Toast.makeText(requireContext(), "Agregar item", Toast.LENGTH_SHORT).show()
         }
@@ -66,6 +72,37 @@ class ItemListFragment : Fragment() {
             }
         }
         lifecycleScope.launch { loadItems() }
+    }
+
+    private fun attachSwipeActions() {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = adapter.getItem(viewHolder.adapterPosition)
+                showItemOptions(item)
+                adapter.notifyItemChanged(viewHolder.adapterPosition)
+            }
+        }
+        ItemTouchHelper(callback).attachToRecyclerView(binding.itemsRecyclerView)
+    }
+
+    private fun showItemOptions(item: com.thaya.shop_family.models.Item) {
+        val options = arrayOf("Comprado", "Eliminar")
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle(item.name)
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> Toast.makeText(requireContext(), "Comprado", Toast.LENGTH_SHORT).show()
+                    1 -> Toast.makeText(requireContext(), "Eliminar producto", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setOnDismissListener { adapter.notifyDataSetChanged() }
+            .show()
     }
 
     private suspend fun loadItems() {

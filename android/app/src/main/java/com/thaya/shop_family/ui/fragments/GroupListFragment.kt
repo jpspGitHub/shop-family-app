@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.thaya.shop_family.R
 import com.thaya.shop_family.databinding.FragmentGroupListBinding
 import com.thaya.shop_family.models.Group
@@ -42,10 +44,12 @@ class GroupListFragment : Fragment() {
             },
             onAddUser = { Toast.makeText(requireContext(), "Agregar usuario", Toast.LENGTH_SHORT).show() },
             onAddItem = { Toast.makeText(requireContext(), "Agregar item", Toast.LENGTH_SHORT).show() },
-            onDelete = { Toast.makeText(requireContext(), "Eliminar grupo", Toast.LENGTH_SHORT).show() }
+            onDelete = { Toast.makeText(requireContext(), "Eliminar grupo", Toast.LENGTH_SHORT).show() },
+            onLongPress = { showGroupOptions(it) }
         )
         binding.groupsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.groupsRecyclerView.adapter = adapter
+        attachSwipeActions()
         lifecycleScope.launch { loadGroups() }
 
         binding.bottomNav.setOnItemSelectedListener { item ->
@@ -57,6 +61,38 @@ class GroupListFragment : Fragment() {
                 else -> true
             }
         }
+    }
+
+    private fun attachSwipeActions() {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val group = adapter.getGroup(viewHolder.adapterPosition)
+                showGroupOptions(group)
+                adapter.notifyItemChanged(viewHolder.adapterPosition)
+            }
+        }
+        ItemTouchHelper(callback).attachToRecyclerView(binding.groupsRecyclerView)
+    }
+
+    private fun showGroupOptions(group: Group) {
+        val options = arrayOf("Agregar usuario", "Agregar item", "Eliminar grupo")
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle(group.name)
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> Toast.makeText(requireContext(), "Agregar usuario", Toast.LENGTH_SHORT).show()
+                    1 -> Toast.makeText(requireContext(), "Agregar item", Toast.LENGTH_SHORT).show()
+                    2 -> Toast.makeText(requireContext(), "Eliminar grupo", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setOnDismissListener { adapter.notifyDataSetChanged() }
+            .show()
     }
 
     private suspend fun loadGroups() {

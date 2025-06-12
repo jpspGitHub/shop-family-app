@@ -41,5 +41,6 @@
         android:layout_marginTop="24dp"
         app:itemIconTint="@color/color_accent"
         app:itemTextColor="@color/color_text_primary"
+        app:itemIconSize="36dp"
         app:menu="@menu/bottom_nav_menu"/>
 </LinearLayout>

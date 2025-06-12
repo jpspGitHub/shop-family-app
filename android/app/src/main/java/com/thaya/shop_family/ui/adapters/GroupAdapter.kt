@@ -12,7 +12,8 @@ class GroupAdapter(
     private val onGroupClick: (Group) -> Unit,
     private val onAddUser: (Group) -> Unit,
     private val onAddItem: (Group) -> Unit,
-    private val onDelete: (Group) -> Unit
+    private val onDelete: (Group) -> Unit,
+    private val onLongPress: (Group) -> Unit
 ) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
     private var groups: List<Group> = emptyList()
@@ -30,6 +31,7 @@ class GroupAdapter(
         val group = groups[position]
         holder.binding.groupNameTextView.text = group.name
         holder.binding.root.setOnClickListener { onGroupClick(group) }
+        holder.binding.root.setOnLongClickListener { onLongPress(group); true }
         holder.binding.addUserButton.setOnClickListener { onAddUser(group) }
         holder.binding.addItemButton.setOnClickListener { onAddItem(group) }
         if (isAdmin(group)) {
@@ -44,6 +46,8 @@ class GroupAdapter(
         groups = list
         notifyDataSetChanged()
     }
+
+    fun getGroup(position: Int): Group = groups[position]
 
     private fun isAdmin(group: Group): Boolean {
         val id = UserSession.userId
