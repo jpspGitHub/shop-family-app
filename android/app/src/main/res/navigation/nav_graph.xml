@@ -20,5 +20,31 @@
             android:id="@+id/action_homeFragment_to_loginFragment"
             android:name="com.thaya.shop_family.ui.fragments.action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_groupListFragment"
+            app:destination="@id/groupListFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/groupListFragment"
+        android:name="com.thaya.shop_family.ui.fragments.GroupListFragment"
+        android:label="groups">
+        <action
+            android:id="@+id/action_groupListFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="com.thaya.shop_family.ui.fragments.ItemListFragment"
+        android:label="items">
+        <action
+            android:id="@+id/action_itemListFragment_to_groupUsersFragment"
+            app:destination="@id/groupUsersFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/groupUsersFragment"
+        android:name="com.thaya.shop_family.ui.fragments.GroupUsersFragment"
+        android:label="users" />
 </navigation>

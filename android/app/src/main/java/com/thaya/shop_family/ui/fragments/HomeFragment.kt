@@ -61,6 +61,10 @@ class HomeFragment : Fragment() {
                     lifecycleScope.launch { logout() }
                     true
                 }
+                R.id.nav_list -> {
+                    findNavController().navigate(R.id.action_homeFragment_to_groupListFragment)
+                    true
+                }
                 else -> true
             }
         }
@@ -76,7 +80,7 @@ class HomeFragment : Fragment() {
                 val db = AppDatabase.get(requireContext())
                 db.userProfileDao().saveProfile(
                     com.thaya.shop_family.data.UserProfileEntity(
-                        id = profile?._id ?: "0",
+                        id = profile?.id ?: "0",
                         name = profile?.name.toString(),
                         email = profile?.email.toString(),
                         avatar = profile?.avatar

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.thaya.shop_family.R
+import com.thaya.shop_family.session.UserSession
 import com.thaya.shop_family.utils.SessionManager
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val sessionManager = SessionManager(this)
         val graph = navController.navInflater.inflate(R.navigation.nav_graph)
         if (sessionManager.fetchAuthToken() != null) {
+            UserSession.jwtToken = sessionManager.fetchAuthToken()
             graph.setStartDestination(R.id.homeFragment)
         } else {
             graph.setStartDestination(R.id.loginFragment)

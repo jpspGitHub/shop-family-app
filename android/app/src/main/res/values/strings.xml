@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">shop-family</string>
+    <string name="error_loading">Error al cargar datos</string>
+    <string name="network_error">Fallo en la red</string>
+    <string name="members_count">Usuarios (%1$d)</string>
 </resources>

@@ -40,6 +40,8 @@ class HomeActivity : AppCompatActivity() {
 
         if (sessionManager.fetchAuthToken() == null) {
             navigateToLogin()
+        } else {
+            UserSession.jwtToken = sessionManager.fetchAuthToken()
         }
         // Verificar si el usuario ya está autenticado
 //        if (UserSession.jwtToken != null) {

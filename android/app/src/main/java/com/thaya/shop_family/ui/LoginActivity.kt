@@ -126,7 +126,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.i("BACKEND", "Token backend: ${result?.token}")
                     Log.i("BACKEND", "Usuario: ${result?.user?.name}, ${result?.user?.email}")
                     UserSession.jwtToken = result?.token;
-                    UserSession.userId = result?.user?._id;
+                    UserSession.userId = result?.user?.id;
                     onSuccess();
                 } else {
                     Log.e("BACKEND", "Error en respuesta: ${response.code()}")
