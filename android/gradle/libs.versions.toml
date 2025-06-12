@@ -27,6 +27,7 @@ navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", ver
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+swipe-action-view = { group = "com.github.Tunous", name = "SwipeActionView", version = "1.5.1" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

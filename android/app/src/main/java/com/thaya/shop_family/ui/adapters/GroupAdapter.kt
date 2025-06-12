@@ -1,12 +1,12 @@
 package com.thaya.shop_family.ui.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thaya.shop_family.databinding.ItemGroupBinding
 import com.thaya.shop_family.models.Group
 import com.thaya.shop_family.session.UserSession
+import com.tunous.swipeactionview.SwipeAction
 
 class GroupAdapter(
     private val onGroupClick: (Group) -> Unit,
@@ -30,15 +30,22 @@ class GroupAdapter(
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val group = groups[position]
         holder.binding.groupNameTextView.text = group.name
-        holder.binding.root.setOnClickListener { onGroupClick(group) }
-        holder.binding.root.setOnLongClickListener { onLongPress(group); true }
-        holder.binding.addUserButton.setOnClickListener { onAddUser(group) }
-        holder.binding.addItemButton.setOnClickListener { onAddItem(group) }
+        holder.binding.swipeView.setOnClickListener { onGroupClick(group) }
+        holder.binding.swipeView.setOnLongClickListener { onLongPress(group); true }
         if (isAdmin(group)) {
-            holder.binding.deleteGroupButton.visibility = View.VISIBLE
-            holder.binding.deleteGroupButton.setOnClickListener { onDelete(group) }
+            holder.binding.swipeView.setLeftSwipeActions(
+                SwipeAction(android.R.drawable.ic_menu_add, R.color.color_swipe_add) { onAddUser(group) },
+                SwipeAction(android.R.drawable.ic_input_add, R.color.color_swipe_add) { onAddItem(group) }
+            )
+            holder.binding.swipeView.setRightSwipeActions(
+                SwipeAction(android.R.drawable.ic_menu_delete, R.color.color_swipe_delete) { onDelete(group) }
+            )
         } else {
-            holder.binding.deleteGroupButton.visibility = View.GONE
+            holder.binding.swipeView.setLeftSwipeActions(
+                SwipeAction(android.R.drawable.ic_menu_add, R.color.color_swipe_add) { onAddUser(group) },
+                SwipeAction(android.R.drawable.ic_input_add, R.color.color_swipe_add) { onAddItem(group) }
+            )
+            holder.binding.swipeView.setRightSwipeActions()
         }
     }
 

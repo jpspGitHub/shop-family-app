@@ -15,6 +15,8 @@
     <color name="color_error">#E57373</color>
     <color name="color_accent">#03A9F4</color>
     <color name="color_background_login">#E3F2FD</color>
+    <color name="color_swipe_add">#4CAF50</color>
+    <color name="color_swipe_delete">#F44336</color>
 
     <!-- Default text colors -->
     <color name="black">#FF000000</color>

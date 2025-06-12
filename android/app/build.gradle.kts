@@ -87,5 +87,6 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.swipe.action.view)
     kapt(libs.room.compiler)
 }
