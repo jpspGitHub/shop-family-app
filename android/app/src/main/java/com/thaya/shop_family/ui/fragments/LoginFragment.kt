@@ -116,11 +116,11 @@ class LoginFragment : Fragment() {
                 val profile = response.body();
                 val user = profile?.user;
                 UserSession.jwtToken = profile?.token
-                UserSession.userId = user?._id
+                UserSession.userId = user?.id
                 val db = AppDatabase.get(requireContext())
                 db.userProfileDao().saveProfile(
                     UserProfileEntity(
-                        id = user?._id ?: "0",
+                        id = user?.id ?: "0",
                         name = user?.name.toString(),
                         email = user?.email.toString(),
                         avatar = user?.avatar

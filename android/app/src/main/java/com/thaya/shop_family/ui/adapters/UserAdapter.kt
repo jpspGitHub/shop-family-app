@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thaya.shop_family.databinding.ItemUserBinding
-import com.thaya.shop_family.models.UserGroup
+import com.thaya.shop_family.models.Member
 
 class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    private var members: List<UserGroup> = emptyList()
+    private var members: List<Member> = emptyList()
 
     inner class UserViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,10 +21,10 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val member = members[position]
-        holder.binding.userNameTextView.text = member.user.name
+        //holder.binding.userNameTextView.text = member.user.name
     }
 
-    fun submitList(list: List<UserGroup>) {
+    fun submitList(list: List<Member>) {
         members = list
         notifyDataSetChanged()
     }

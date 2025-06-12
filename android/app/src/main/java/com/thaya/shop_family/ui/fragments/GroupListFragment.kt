@@ -1,6 +1,7 @@
 package com.thaya.shop_family.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,7 @@ class GroupListFragment : Fragment() {
                 Toast.makeText(requireContext(), R.string.error_loading, Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
+            Log.e("loadGroups", "getGroups - failed", e)
             Toast.makeText(requireContext(), R.string.network_error, Toast.LENGTH_SHORT).show()
         }
     }

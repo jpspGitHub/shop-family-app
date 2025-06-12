@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.thaya.shop_family.R
 import com.thaya.shop_family.databinding.FragmentItemListBinding
 import com.thaya.shop_family.models.Group
+import com.thaya.shop_family.models.Member
 import com.thaya.shop_family.network.RetrofitClient
 import com.thaya.shop_family.ui.adapters.ItemAdapter
 import kotlinx.coroutines.launch
@@ -37,6 +38,8 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         group = requireArguments().getSerializable("group") as Group
+        //group = requireArguments().getSerializable("group", Class::class.java) as Group;
+
         adapter = ItemAdapter { Toast.makeText(requireContext(), "Eliminar producto", Toast.LENGTH_SHORT).show() }
         binding.itemsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.itemsRecyclerView.adapter = adapter
@@ -53,7 +56,7 @@ class ItemListFragment : Fragment() {
 
     private suspend fun loadItems() {
         try {
-            val response = RetrofitClient.itemService.getItems(group._id)
+            val response = RetrofitClient.itemService.getItems(group.id)
             if (response.isSuccessful) {
                 adapter.submitList(response.body() ?: emptyList())
             } else {

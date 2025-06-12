@@ -1,8 +1,6 @@
 package com.thaya.shop_family.network
 
 import com.thaya.shop_family.models.Group
-import com.thaya.shop_family.models.Item
-import com.thaya.shop_family.models.UserGroup
 import retrofit2.Response
 import retrofit2.http.*
 

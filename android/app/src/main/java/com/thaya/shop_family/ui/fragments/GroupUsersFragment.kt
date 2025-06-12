@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thaya.shop_family.databinding.FragmentGroupUsersBinding
-import com.thaya.shop_family.models.UserGroup
+import com.thaya.shop_family.models.Member
 import com.thaya.shop_family.ui.adapters.UserAdapter
 
 class GroupUsersFragment : Fragment() {
@@ -26,7 +26,8 @@ class GroupUsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val members = requireArguments().getSerializable("members") as ArrayList<UserGroup>? ?: arrayListOf()
+        val members = requireArguments().getSerializable("members", ArrayList::class.java) as? ArrayList<Member> ?: arrayListOf()
+
         val adapter = UserAdapter()
         binding.usersRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.usersRecyclerView.adapter = adapter

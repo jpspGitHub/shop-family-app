@@ -47,6 +47,6 @@ class GroupAdapter(
 
     private fun isAdmin(group: Group): Boolean {
         val id = UserSession.userId
-        return group.members.any { it.user._id == id && it.role == "admin" }
+        return group.members.any { it.user == id && it.role == "admin" }
     }
 }

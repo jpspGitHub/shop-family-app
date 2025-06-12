@@ -1,9 +1,10 @@
 package com.thaya.shop_family.models
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class User(
-    val _id: String,
+    @SerializedName("_id") val id: String,
     val name: String,
     val email: String,
     val googleId: String,
