@@ -1,5 +1,7 @@
 package com.thaya.shop_family.models
 
+import java.io.Serializable
+
 data class Item(
     val _id: String,
     val name: String,
@@ -8,4 +10,4 @@ data class Item(
     val groupId: String,
     val addedBy: String,
     val createdAt: String
-)
+) : Serializable

@@ -1,5 +1,7 @@
 package com.thaya.shop_family.models
 
+import java.io.Serializable
+
 data class User(
     val _id: String,
     val name: String,
@@ -13,4 +15,4 @@ data class User(
     val lastLogout: String,
     val active: Boolean,
     val createdAt: String
-)
+) : Serializable

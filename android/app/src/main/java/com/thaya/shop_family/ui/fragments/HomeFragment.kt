@@ -61,6 +61,10 @@ class HomeFragment : Fragment() {
                     lifecycleScope.launch { logout() }
                     true
                 }
+                R.id.nav_list -> {
+                    findNavController().navigate(R.id.action_homeFragment_to_groupListFragment)
+                    true
+                }
                 else -> true
             }
         }
