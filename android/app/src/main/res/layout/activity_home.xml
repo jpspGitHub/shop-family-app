@@ -39,7 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginTop="24dp"
-        app:itemIconTint="@color/color_accent"
-        app:itemTextColor="@color/color_text_primary"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="32dp"/>
 </LinearLayout>

@@ -14,10 +14,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.thaya.shop_family.R
 import com.thaya.shop_family.auth.AuthManager
 import com.thaya.shop_family.databinding.FragmentHomeBinding
+import com.thaya.shop_family.ui.adapters.UpdateAdapter
 import com.thaya.shop_family.network.RetrofitClient
 import com.thaya.shop_family.session.UserSession
 import com.thaya.shop_family.utils.SessionManager
 import com.thaya.shop_family.data.AppDatabase
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -52,6 +54,15 @@ class HomeFragment : Fragment() {
             .load(session?.photoUrl)
             .circleCrop()
             .into(binding.userAvatarImageView)
+
+        val updates = listOf(
+            "Grupo creado de prueba",
+            "Item agregado recientemente",
+            "Compra realizada"
+        )
+        val updateAdapter = UpdateAdapter(updates)
+        binding.updatesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.updatesRecyclerView.adapter = updateAdapter
 
         lifecycleScope.launch { loadProfile() }
 

@@ -40,6 +40,8 @@ class ItemListFragment : Fragment() {
         group = requireArguments().getSerializable("group") as Group
         //group = requireArguments().getSerializable("group", Class::class.java) as Group;
 
+        binding.currentGroupTextView.text = getString(R.string.current_group, group.name)
+
         adapter = ItemAdapter { Toast.makeText(requireContext(), "Eliminar producto", Toast.LENGTH_SHORT).show() }
         binding.itemsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.itemsRecyclerView.adapter = adapter

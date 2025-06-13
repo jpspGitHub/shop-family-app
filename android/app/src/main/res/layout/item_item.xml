@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:padding="12dp"
+    android:layout_marginVertical="4dp"
+    android:background="@drawable/item_background"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -15,7 +17,7 @@
             android:id="@+id/itemNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/itemQuantityTextView"
             android:layout_width="wrap_content"
