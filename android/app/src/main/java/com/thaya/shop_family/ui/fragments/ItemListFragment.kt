@@ -38,7 +38,11 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         group = requireArguments().getSerializable("group") as Group
+        requireActivity().title = getString(R.string.title_items_for_group, group.name)
+
         //group = requireArguments().getSerializable("group", Class::class.java) as Group;
+
+        binding.currentGroupTextView.text = getString(R.string.current_group, group.name)
 
         adapter = ItemAdapter { Toast.makeText(requireContext(), "Eliminar producto", Toast.LENGTH_SHORT).show() }
         binding.itemsRecyclerView.layoutManager = LinearLayoutManager(requireContext())

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Brand colors -->
-    <color name="color_primary">#4CAF50</color>
-    <color name="color_secondary">#FFC107</color>
+    <color name="color_primary">#FA7D52</color>
+    <color name="color_secondary">#233E5B</color>
 
     <!-- Neutral palette -->
     <color name="color_background_light">#F9F9F9</color>
@@ -13,7 +13,7 @@
     <!-- Status colors -->
     <color name="color_success">#81C784</color>
     <color name="color_error">#E57373</color>
-    <color name="color_accent">#03A9F4</color>
+    <color name="color_accent">#5daabd</color>
 
     <!-- Default text colors -->
     <color name="black">#FF000000</color>

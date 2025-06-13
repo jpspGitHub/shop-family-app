@@ -3,4 +3,11 @@
     <string name="error_loading">Error al cargar datos</string>
     <string name="network_error">Fallo en la red</string>
     <string name="members_count">Usuarios (%1$d)</string>
+    <string name="current_group">Grupo: %1$s</string>
+    <string name="title_login">Iniciar sesión</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_groups">Grupos</string>
+    <string name="title_items">Productos</string>
+    <string name="title_users">Usuarios</string>
+    <string name="title_items_for_group">Productos de %1$s</string>
 </resources>
