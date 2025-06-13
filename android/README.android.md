@@ -19,7 +19,7 @@ Este archivo explica cómo configurar y ejecutar la app Android nativa desarroll
 ```
 app/
 ├── src/main/java/com/thaya/shop_family
-│   ├── ui/              # Activities principales (Login, Home)
+│   ├── ui/              # MainActivity + fragments (Login, Home)
 │   ├── auth/            # Manejo de sesión y modelo de usuario
 │   ├── network/         # Retrofit + servicios
 │   └── ...
@@ -65,7 +65,7 @@ keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -sto
 
 ## 🔐 Login con Google (Firebase)
 
-- Se realiza en `LoginActivity`
+Se realiza en `LoginFragment` dentro de `MainActivity`
 - Usa `FirebaseAuth` y `GoogleSignInClient`
 - El `idToken` se obtiene con:
 ```kotlin
@@ -79,7 +79,7 @@ FirebaseAuth.getInstance().currentUser?.getIdToken(true)
 
 - Probá en emulador con Google Play o dispositivo real
 - Verificá permisos de Internet en `AndroidManifest.xml`
-- Verificá que `MainActivity` no esté configurado como `LAUNCHER`
+- Verificá que `MainActivity` esté configurado como `LAUNCHER`
 
 ---
 
