@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.thaya.shop_family.ui.fragments.LoginFragment"
-        android:label="login">
+        android:label="@string/title_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             android:name="com.thaya.shop_family.ui.fragments.action_loginFragment_to_homeFragment"
@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.thaya.shop_family.ui.fragments.HomeFragment"
-        android:label="home">
+        android:label="@string/title_home">
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             android:name="com.thaya.shop_family.ui.fragments.action_homeFragment_to_loginFragment"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/groupListFragment"
         android:name="com.thaya.shop_family.ui.fragments.GroupListFragment"
-        android:label="groups">
+        android:label="@string/title_groups">
         <action
             android:id="@+id/action_groupListFragment_to_itemListFragment"
             app:destination="@id/itemListFragment" />
@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/itemListFragment"
         android:name="com.thaya.shop_family.ui.fragments.ItemListFragment"
-        android:label="items">
+        android:label="@string/title_items">
         <action
             android:id="@+id/action_itemListFragment_to_groupUsersFragment"
             app:destination="@id/groupUsersFragment" />
@@ -46,5 +46,5 @@
     <fragment
         android:id="@+id/groupUsersFragment"
         android:name="com.thaya.shop_family.ui.fragments.GroupUsersFragment"
-        android:label="users" />
+        android:label="@string/title_users" />
 </navigation>

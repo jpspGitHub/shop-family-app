@@ -35,6 +35,7 @@ class GroupListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         adapter = GroupAdapter(
             onGroupClick = { group ->
                 val bundle = Bundle().apply { putSerializable("group", group) }
